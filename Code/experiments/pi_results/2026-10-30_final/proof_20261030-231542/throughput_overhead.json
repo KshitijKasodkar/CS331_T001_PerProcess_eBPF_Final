@@ -1,0 +1,193 @@
+{
+  "seconds": 10,
+  "runs": 3,
+  "tcp": {
+    "off": [
+      {
+        "bps": 69953072032.24596,
+        "bytes": 87451238400,
+        "sys_cpu_pct": 45.760082730093075,
+        "client_pid": 1342,
+        "host_cpu_pct": 100.76813788028458
+      },
+      {
+        "bps": 69414425539.9725,
+        "bytes": 86789193728,
+        "sys_cpu_pct": 47.499352163773,
+        "client_pid": 1350,
+        "host_cpu_pct": 100.43924572306535
+      },
+      {
+        "bps": 26517933099.82438,
+        "bytes": 33154662400,
+        "sys_cpu_pct": 44.737503139914594,
+        "client_pid": 1423,
+        "host_cpu_pct": 78.55027519668583
+      },
+      {
+        "bps": 67609188560.8333,
+        "bytes": 84521779200,
+        "sys_cpu_pct": 44.981986618630984,
+        "client_pid": 1464,
+        "host_cpu_pct": 100.25131850483835
+      },
+      {
+        "bps": 26494501276.453224,
+        "bytes": 33125826560,
+        "sys_cpu_pct": 44.818913480885314,
+        "client_pid": 1472,
+        "host_cpu_pct": 79.1409651220162
+      },
+      {
+        "bps": 67922627062.18488,
+        "bytes": 84913684480,
+        "sys_cpu_pct": 44.84270242392986,
+        "client_pid": 1480,
+        "host_cpu_pct": 100.40498588758257
+      }
+    ],
+    "on": [
+      {
+        "bps": 47909462338.32615,
+        "bytes": 59894661120,
+        "sys_cpu_pct": 44.95014062899514,
+        "client_pid": 1434,
+        "host_cpu_pct": 94.71684066838014,
+        "tool_cpu_pct": 0.2855997459973549,
+        "tool_seen_bytes": 59894661654
+      },
+      {
+        "bps": 45405213191.057655,
+        "bytes": 56767283200,
+        "sys_cpu_pct": 45.89041095890411,
+        "client_pid": 1446,
+        "host_cpu_pct": 94.34680847660296,
+        "tool_cpu_pct": 0.2855893838296464,
+        "tool_seen_bytes": 56767283737
+      },
+      {
+        "bps": 41089326442.77484,
+        "bytes": 51368427520,
+        "sys_cpu_pct": 45.53051405419093,
+        "client_pid": 1454,
+        "host_cpu_pct": 90.79757275462556,
+        "tool_cpu_pct": 0.4283697436205305,
+        "tool_seen_bytes": 51368428055
+      }
+    ]
+  },
+  "udp64": {
+    "off": [
+      {
+        "bps": 254178751.3107189,
+        "bytes": 317761280,
+        "packets": 4965020,
+        "lost_pct": 0.3366955218710096,
+        "sys_cpu_pct": 41.29891756869276,
+        "client_pid": 1346
+      },
+      {
+        "bps": 254896874.56940663,
+        "bytes": 318644480,
+        "packets": 4978820,
+        "lost_pct": 0.146098874833796,
+        "sys_cpu_pct": 42.08044382801664,
+        "client_pid": 1419
+      },
+      {
+        "bps": 257376170.82469392,
+        "bytes": 321758080,
+        "packets": 5027470,
+        "lost_pct": 0.00724022221912811,
+        "sys_cpu_pct": 42.023346303501945,
+        "client_pid": 1427
+      },
+      {
+        "bps": 254932374.405432,
+        "bytes": 318702720,
+        "packets": 4979730,
+        "lost_pct": 0,
+        "sys_cpu_pct": 41.636715510091236,
+        "client_pid": 1468
+      },
+      {
+        "bps": 253749458.312944,
+        "bytes": 317223680,
+        "packets": 4956620,
+        "lost_pct": 0.15377414447748666,
+        "sys_cpu_pct": 41.461389427068916,
+        "client_pid": 1476
+      },
+      {
+        "bps": 255132388.20916182,
+        "bytes": 318952320,
+        "packets": 4983630,
+        "lost_pct": 0.048438587936905426,
+        "sys_cpu_pct": 41.735765616362634,
+        "client_pid": 1484
+      }
+    ],
+    "on": [
+      {
+        "bps": 127127157.45382129,
+        "bytes": 158928000,
+        "packets": 2483250,
+        "lost_pct": 0.06185442464512232,
+        "sys_cpu_pct": 42.2637301366044,
+        "client_pid": 1442,
+        "tool_cpu_pct": 0.3570140499927568
+      },
+      {
+        "bps": 128133769.70815866,
+        "bytes": 160186240,
+        "packets": 2502910,
+        "lost_pct": 0.13204629810900112,
+        "sys_cpu_pct": 42.30337078651685,
+        "client_pid": 1450,
+        "tool_cpu_pct": 0.5712244013021263
+      },
+      {
+        "bps": 127010202.89911877,
+        "bytes": 158781440,
+        "packets": 2480960,
+        "lost_pct": 0.031479749774280925,
+        "sys_cpu_pct": 42.15522054718035,
+        "client_pid": 1458,
+        "tool_cpu_pct": 0.2856132673821544
+      }
+    ]
+  },
+  "tool_idle_cpu_pct": 0.1999966877748592,
+  "tool_rss_mb_start": 219.8,
+  "tool_rss_mb_end": 220.5,
+  "tcp_gbps_off": 54.652,
+  "tcp_gbps_on": 44.801,
+  "tcp_gbps_off_sd": 21.819,
+  "tcp_gbps_on_sd": 3.45,
+  "tcp_throughput_change_pct": -18.02,
+  "udp64_kpps_off": 498.2,
+  "udp64_kpps_on": 248.9,
+  "udp64_rate_change_pct": -50.04,
+  "tool_cpu_pct_under_tcp_load": 0.33,
+  "tool_cpu_pct_under_udp_load": 0.4,
+  "accuracy_at_full_speed": [
+    {
+      "tracker": 59894661654,
+      "iperf3": 59894661120,
+      "pct": 100.0
+    },
+    {
+      "tracker": 56767283737,
+      "iperf3": 56767283200,
+      "pct": 100.0
+    },
+    {
+      "tracker": 51368428055,
+      "iperf3": 51368427520,
+      "pct": 100.0
+    }
+  ],
+  "summary": "TCP loopback 54.652 -> 44.801 Gbit/s (-18.0 %); 64 B UDP 498.2 -> 248.9 kpps (-50.0 %); tool CPU 0.33 % (TCP load), 0.20 % idle; RSS 220.5 MB; accuracy at full speed 100.000 %, 100.000 %, 100.000 %",
+  "group": "performance",
+  "name": "throughput_overhead"
+}

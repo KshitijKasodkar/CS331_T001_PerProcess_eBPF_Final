@@ -1,0 +1,13 @@
+@Description: Build a real-time network usage tracker using eBPF to measure send/receive bandwidth per process. Support per-remote IP tracking, protocol filtering (TCP/UDP), and historical usage storage for reporting.
+
+Tools
+Linux eBPF (bcc / libbpf)
+Go or Python (user-space program)
+SQLite / Prometheus (storage)
+CLI or simple Web UI
+
+Expected Outcomes
+Hands-on eBPF networking experience
+Real-time per-process + per-IP bandwidth monitoring
+Protocol-based filtering (TCP/UDP)
+Historical usage reports

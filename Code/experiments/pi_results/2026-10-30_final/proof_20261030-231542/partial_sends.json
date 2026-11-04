@@ -1,0 +1,15 @@
+{
+  "truth_accepted": 15535328,
+  "requested_by_app": 32374784,
+  "calls": 494,
+  "partial_sends": 164,
+  "eagain": 165,
+  "peer_received": 15535328,
+  "tracker_tx": 15535328,
+  "error_pct": 0.0,
+  "naive_size_counting_error_pct": 108.4,
+  "summary": "tracker 15535328 B = accepted 15535328 B; counting the requested size (old method) would report 32374784 B (+108 %)",
+  "group": "correctness",
+  "name": "partial_sends",
+  "pass": true
+}

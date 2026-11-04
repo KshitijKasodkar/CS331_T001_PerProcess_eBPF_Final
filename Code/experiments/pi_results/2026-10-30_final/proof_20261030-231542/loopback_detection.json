@@ -1,0 +1,9 @@
+{
+  "loopback_rows_flagged": true,
+  "own_ip": "10.58.105.107",
+  "own_ip_flagged_loopback": true,
+  "summary": "127.x flagged: True; own IP 10.58.105.107 flagged: True",
+  "group": "correctness",
+  "name": "loopback_detection",
+  "pass": true
+}

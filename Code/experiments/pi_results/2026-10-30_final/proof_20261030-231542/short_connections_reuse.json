@@ -1,0 +1,11 @@
+{
+  "connections": 500,
+  "truth": 10000000,
+  "tracker_tx": 10000000,
+  "tracker_wire_tx": 10000000,
+  "peer_received": 10000000,
+  "summary": "500 short connections: app 10000000/10000000 B, wire 10000000 B (100.00 %)",
+  "group": "correctness",
+  "name": "short_connections_reuse",
+  "pass": true
+}

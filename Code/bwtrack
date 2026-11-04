@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Launcher: sudo ./bwtrack [live|web|stream|record|events|report|doctor] [options]
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$DIR" || exit 1
+NEEDS_ROOT=1
+case "$1" in report|doctor|-h|--help|--version) NEEDS_ROOT=0 ;; esac
+[ "$1" = doctor ] && NEEDS_ROOT=1
+if [ "$NEEDS_ROOT" = 1 ] && [ "$EUID" -ne 0 ]; then
+  exec sudo -E python3 -m bwtracker "$@"
+fi
+exec python3 -m bwtracker "$@"

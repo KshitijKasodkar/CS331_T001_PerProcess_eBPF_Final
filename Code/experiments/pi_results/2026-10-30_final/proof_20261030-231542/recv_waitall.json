@@ -1,0 +1,8 @@
+{
+  "truth_received": 20971520,
+  "tracker_rx": 20971520,
+  "summary": "receiver with MSG_WAITALL: tracker 20971520 B, app 20971520 B",
+  "group": "correctness",
+  "name": "recv_waitall",
+  "pass": true
+}

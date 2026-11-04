@@ -1,0 +1,43 @@
+{
+  "send_calls": 1363107,
+  "calls_per_s": 170388,
+  "truth": 87238848,
+  "tracker_tx": 87238848,
+  "per_program_cost": {
+    "tracepoint__sock__inet_sock_set_state": {
+      "runs": 12,
+      "avg_ns": 1032.2
+    },
+    "on_tcp_send_enter": {
+      "runs": 1363445,
+      "avg_ns": 143.1
+    },
+    "on_tcp_send_return": {
+      "runs": 1363445,
+      "avg_ns": 603.6
+    },
+    "on_tcp_cleanup_rbuf": {
+      "runs": 1816141,
+      "avg_ns": 432.5
+    },
+    "on_tcp_rcv_established": {
+      "runs": 2720311,
+      "avg_ns": 97.9
+    }
+  },
+  "map_memlock_bytes": {
+    "flows": 3670976,
+    "tcp_snaps": 3277760,
+    "sk_owner": 2491328,
+    "rx_seq": 1311680,
+    "udp_drops": 328640,
+    "tcp_send_args": 427328,
+    "udp_send_args": 427328
+  },
+  "kprobe_misses": 0,
+  "perf_lost": 0,
+  "summary": "170,388 send() calls/s of 64 B: tracker 87238848/87238848 B; send probes on_tcp_send_enter 143.1 ns, on_tcp_send_return 603.6 ns",
+  "group": "scalability",
+  "name": "event_rate",
+  "pass": true
+}

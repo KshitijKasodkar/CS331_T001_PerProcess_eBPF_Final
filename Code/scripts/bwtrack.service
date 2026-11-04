@@ -1,0 +1,16 @@
+[Unit]
+Description=bwtrack - per-process network bandwidth recorder (eBPF)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/bwtracker
+ExecStart=/usr/bin/python3 -m bwtracker record --prom-port 8080 --retention-days 30
+Restart=on-failure
+RestartSec=5
+# eBPF needs root (CAP_BPF + CAP_PERFMON + CAP_SYS_ADMIN for kprobes)
+User=root
+
+[Install]
+WantedBy=multi-user.target

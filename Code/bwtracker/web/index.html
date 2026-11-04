@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bwtrack live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600&family=Barlow+Semi+Condensed:wght@400;500;600&display=swap">
+<style>
+:root {
+  --paper: #eef2f1;
+  --panel: #f8faf9;
+  --ink: #1c2a33;
+  --ink-2: #4d5d68;
+  --rule: #cfd8d6;
+  --up: #b5367a;
+  --up-fill: rgba(181, 54, 122, .16);
+  --down: #1f8a70;
+  --down-fill: rgba(31, 138, 112, .16);
+  --wire: #3d5a80;
+  --nic: #7d868f;
+  --loss: #d23c3c;
+  --focus: #3d5a80;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #151b20; --panel: #1b2329; --ink: #dce4e8; --ink-2: #93a3ad; --rule: #2c3840;
+    --up: #e46aa8; --up-fill: rgba(228, 106, 168, .18); --down: #4cc7a5; --down-fill: rgba(76, 199, 165, .16);
+    --wire: #8fb1df; --nic: #8b959e; --loss: #ff6b6b; --focus: #8fb1df;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #151b20; --panel: #1b2329; --ink: #dce4e8; --ink-2: #93a3ad; --rule: #2c3840;
+  --up: #e46aa8; --up-fill: rgba(228, 106, 168, .18); --down: #4cc7a5; --down-fill: rgba(76, 199, 165, .16);
+  --wire: #8fb1df; --nic: #8b959e; --loss: #ff6b6b; --focus: #8fb1df;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--paper); color: var(--ink);
+  font: 15px/1.45 "Barlow Semi Condensed", "Segoe UI", system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+button, select { font: inherit; color: inherit; }
+select { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 3px 6px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 20px 40px; }
+
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 24px; padding: 18px 0 12px; }
+h1 { font: 600 26px/1 "Barlow", sans-serif; margin: 0; letter-spacing: -.01em; }
+.host { color: var(--ink-2); }
+.host b { color: var(--ink); font-weight: 600; }
+.live { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-2); }
+.live i { width: 8px; height: 8px; border-radius: 50%; background: var(--down); }
+.live.stale i { background: var(--loss); }
+.controls { margin-left: auto; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.seg button { background: none; border: 0; padding: 4px 12px; cursor: pointer; color: var(--ink-2); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+label.tog { display: inline-flex; gap: 6px; align-items: center; color: var(--ink-2); cursor: pointer; }
+
+nav.tabs { display: flex; gap: 22px; border-bottom: 1px solid var(--rule); margin-bottom: 18px; }
+nav.tabs button { background: none; border: 0; padding: 8px 0; cursor: pointer; color: var(--ink-2);
+  border-bottom: 2px solid transparent; margin-bottom: -1px; font-size: 16px; }
+nav.tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--ink); }
+
+/* the trace: the one memorable element */
+.trace { position: relative; }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 4px 28px; margin-bottom: 6px; }
+.legend .dir { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+.legend .big { font: 600 30px/1.1 "Barlow", sans-serif; letter-spacing: -.01em; }
+.legend .up .big { color: var(--up); }
+.legend .down .big { color: var(--down); }
+.legend .k { color: var(--ink-2); }
+.legend .k em { font-style: normal; color: var(--ink); }
+.sw { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 5px; }
+canvas#chart { width: 100%; height: 300px; display: block; }
+.axisnote { color: var(--ink-2); font-size: 13px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 34px; margin-top: 26px; }
+.cols > * { min-width: 0; }
+@media (max-width: 980px) { .cols { grid-template-columns: 1fr; } }
+h2 { font: 600 18px/1.2 "Barlow", sans-serif; margin: 0 0 10px; }
+.sub { color: var(--ink-2); margin: -6px 0 10px; font-size: 14px; }
+
+.tablewrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 5px 8px; text-align: right; white-space: nowrap; }
+th { font-weight: 500; color: var(--ink-2); border-bottom: 1px solid var(--rule); cursor: pointer; user-select: none; }
+th[aria-sort] { color: var(--ink); }
+th:first-child, td:first-child, th.l, td.l { text-align: left; }
+tbody tr.proc { border-top: 1px solid var(--rule); cursor: pointer; }
+tbody tr.proc:hover { background: var(--panel); }
+tbody tr.flow td { color: var(--ink-2); font-size: 14px; padding-top: 2px; padding-bottom: 2px; }
+tbody tr.flow td:first-child { padding-left: 30px; }
+td .pid { color: var(--ink-2); font-size: 13px; margin-left: 6px; }
+td.up { color: var(--up); } td.down { color: var(--down); } td.wire { color: var(--wire); }
+td.bad { color: var(--loss); font-weight: 600; }
+.caret { display: inline-block; width: 14px; color: var(--ink-2); }
+tr.idle td { opacity: .55; }
+.empty { color: var(--ink-2); padding: 18px 8px; text-align: left; }
+
+.loss { background: var(--panel); border-left: 3px solid var(--loss); padding: 14px 16px 16px; }
+.loss .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 12px; }
+.loss .n { font: 600 24px/1.1 "Barlow", sans-serif; }
+.loss .n.hot { color: var(--loss); }
+.loss .l { color: var(--ink-2); font-size: 13px; line-height: 1.25; }
+.loss p { margin: 0 0 10px; color: var(--ink-2); font-size: 14px; }
+.events { list-style: none; margin: 0; padding: 0; max-height: 320px; overflow-y: auto; font-size: 13.5px; }
+.events li { padding: 5px 0; border-top: 1px solid var(--rule); }
+.events .t { color: var(--ink-2); margin-right: 6px; }
+.events .kind { color: var(--loss); font-weight: 600; margin-right: 6px; }
+
+.hist-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 14px; }
+canvas#tl { width: 100%; height: 180px; display: block; margin-bottom: 18px; }
+footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid var(--rule); color: var(--ink-2); font-size: 13.5px;
+  display: flex; flex-wrap: wrap; gap: 4px 26px; }
+footer b { color: var(--ink); font-weight: 500; }
+.err { background: var(--loss); color: #fff; padding: 8px 12px; margin: 10px 0; display: none; }
+@media (max-width: 600px) { .wrap { padding: 0 16px 32px; } .controls { margin-left: 0; } .legend .big { font-size: 26px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>bwtrack</h1>
+    <span class="host" id="host">connecting</span>
+    <span class="live" id="live"><i></i><span id="livetxt">waiting for data</span></span>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Protocol">
+        <button data-proto="ALL" aria-pressed="true">All</button>
+        <button data-proto="TCP" aria-pressed="false">TCP</button>
+        <button data-proto="UDP" aria-pressed="false">UDP</button>
+      </div>
+      <label class="tog"><input type="checkbox" id="loop"> Loopback</label>
+      <label class="tog"><input type="checkbox" id="idle"> Idle</label>
+      <button class="seg" id="theme" style="padding:4px 10px;background:none;cursor:pointer" aria-label="Toggle colour theme">Theme</button>
+    </div>
+  </header>
+  <div class="err" id="err"></div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="live">Live</button>
+    <button role="tab" aria-selected="false" data-tab="history">History</button>
+  </nav>
+
+  <section id="tab-live">
+    <div class="trace">
+      <div class="legend">
+        <div class="dir up">
+          <span class="big" id="lg-up">0</span>
+          <span class="k"><span class="sw" style="color:var(--up)"></span>apps sent</span>
+          <span class="k"><span class="sw" style="color:var(--wire)"></span>TCP on wire <em id="lg-wire">0</em></span>
+          <span class="k"><span class="sw" style="color:var(--loss);border-top-width:6px"></span>retransmitted <em id="lg-rtx">0</em></span>
+          <span class="k"><span class="sw" style="color:var(--nic);border-top-style:dashed"></span>NIC out <em id="lg-nictx">0</em></span>
+        </div>
+        <div class="dir down">
+          <span class="big" id="lg-down">0</span>
+          <span class="k"><span class="sw" style="color:var(--down)"></span>apps received</span>
+          <span class="k"><span class="sw" style="color:var(--nic);border-top-style:dashed"></span>NIC in <em id="lg-nicrx">0</em></span>
+        </div>
+      </div>
+      <canvas id="chart" aria-label="Upload above the line, download below, last 5 minutes"></canvas>
+      <div class="axisnote"><span id="chartnote">Upload above the line, download below. All processes, loopback excluded.</span><span id="scale"></span></div>
+    </div>
+
+    <div class="cols">
+      <div>
+        <h2>Processes</h2>
+        <p class="sub">Socket-layer bytes, measured where each app calls send and receive. Click a process to see each remote IP.</p>
+        <div class="tablewrap">
+          <table id="ptable">
+            <thead><tr>
+              <th class="l" data-k="comm">Process</th>
+              <th class="l" data-k="protos">Proto</th>
+              <th data-k="remotes">Remotes</th>
+              <th data-k="tx_rate" aria-sort="descending">Upload</th>
+              <th data-k="rx_rate">Download</th>
+              <th data-k="wire_tx_rate">TCP wire</th>
+              <th data-k="retrans_pct">Retx</th>
+              <th data-k="max_srtt_us">RTT</th>
+              <th data-k="tx_bytes">Sent</th>
+              <th data-k="rx_bytes">Received</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <aside class="loss">
+        <h2>Packet loss now</h2>
+        <div class="nums">
+          <div><div class="n" id="ls-pct">0%</div><div class="l">of TCP wire bytes were retransmissions</div></div>
+          <div><div class="n" id="ls-segs">0</div><div class="l">segments resent this second</div></div>
+          <div><div class="n" id="ls-drop">0</div><div class="l">UDP datagrams dropped</div></div>
+        </div>
+        <p>TCP hides loss from the app by resending, so the app's byte count stays exact while the wire carries more. UDP does not resend; loss there only shows up at the receiver.</p>
+        <ul class="events" id="events"><li class="empty">No retransmissions or drops yet.</li></ul>
+      </aside>
+    </div>
+  </section>
+
+  <section id="tab-history" hidden>
+    <div class="hist-controls">
+      <div class="seg" role="group" aria-label="Time range" id="ranges">
+        <button data-since="15m" aria-pressed="false">15 min</button>
+        <button data-since="1h" aria-pressed="true">1 hour</button>
+        <button data-since="6h" aria-pressed="false">6 hours</button>
+        <button data-since="24h" aria-pressed="false">24 hours</button>
+        <button data-since="7d" aria-pressed="false">7 days</button>
+      </div>
+      <label class="tog">Group by
+        <select id="groupby">
+          <option value="name">Program name</option>
+          <option value="process">Process (PID)</option>
+          <option value="remote">Remote IP</option>
+          <option value="process-remote">Process and remote IP</option>
+          <option value="proto">Protocol</option>
+          <option value="port">Remote port</option>
+        </select>
+      </label>
+      <button class="seg" id="csv" style="padding:4px 12px;background:none;cursor:pointer">Download CSV</button>
+    </div>
+    <canvas id="tl" aria-label="Traffic per time bucket"></canvas>
+    <div class="tablewrap"><table id="htable"><thead></thead><tbody></tbody></table></div>
+  </section>
+
+  <footer id="health"></footer>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const state = { proto: "ALL", loop: false, idle: false, sortK: "tx_rate", sortDir: -1, open: new Set(),
+                since: "1h", by: "name", tab: "live", interval: 1, last: 0, hist: [] };
+try { const t = localStorage.getItem("bw-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function bits(Bps) {
+  let b = Bps * 8; const u = ["bit/s", "kbit/s", "Mbit/s", "Gbit/s"]; let i = 0;
+  while (Math.abs(b) >= 1000 && i < u.length - 1) { b /= 1000; i++; }
+  return (i === 0 ? b.toFixed(0) : b.toFixed(b < 10 ? 2 : 1)) + " " + u[i];
+}
+function bytes(n) {
+  const u = ["B", "KB", "MB", "GB", "TB"]; let i = 0;
+  while (Math.abs(n) >= 1024 && i < u.length - 1) { n /= 1024; i++; }
+  return (i === 0 ? n.toFixed(0) : n.toFixed(1)) + " " + u[i];
+}
+const rate = v => v > 0 ? bytes(v) + "/s" : "–";
+const rtt = us => us ? (us / 1000).toFixed(us < 100000 ? 1 : 0) + " ms" : "–";
+const ep = (a, p) => (a.includes(":") ? `[${a}]` : a) + (p ? ":" + p : "");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const tcpState = {1: "established", 2: "syn sent", 3: "syn recv", 4: "fin wait 1", 5: "fin wait 2", 6: "time wait",
+                  7: "closed", 8: "close wait", 9: "last ack", 10: "listen", 11: "closing"};
+
+async function getJSON(url) {
+  const r = await fetch(url, {cache: "no-store"});
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.error || r.statusText);
+  return j;
+}
+
+/* ------------------------------------------------------------- chart */
+function sizeCanvas(c) {
+  const dpr = window.devicePixelRatio || 1, r = c.getBoundingClientRect();
+  if (c.width !== Math.round(r.width * dpr) || c.height !== Math.round(r.height * dpr)) {
+    c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr);
+  }
+  const ctx = c.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return [ctx, r.width, r.height];
+}
+function niceMax(v) {
+  if (v <= 0) return 1000 / 8;
+  const b = v * 8, p = Math.pow(10, Math.floor(Math.log10(b))), m = b / p;
+  return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p / 8;
+}
+function drawChart(series) {
+  const [ctx, W, H] = sizeCanvas($("#chart"));
+  ctx.clearRect(0, 0, W, H);
+  const now = series.length ? series[series.length - 1].t : 0;
+  const have = series.length ? now - series[0].t : 0;
+  const span = have >= 240 ? 300 : have >= 90 ? 180 : 60;   // grow the window as data accumulates
+  const pts = series.filter(p => p.t > now - span);
+  let mx = 0;
+  for (const p of pts) mx = Math.max(mx, p.tx, p.wire_tx, p.nic_tx, p.rx, p.nic_rx);
+  mx = niceMax(mx);
+  const mid = H / 2, half = H / 2 - 8;
+  const x = ts => W - (now - ts) / span * W;
+  const yU = v => mid - v / mx * half, yD = v => mid + v / mx * half;
+
+  ctx.strokeStyle = css("--rule"); ctx.lineWidth = 1;
+  for (const f of [0.5, 1]) {
+    for (const y of [mid - f * half, mid + f * half]) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+  }
+  ctx.fillStyle = css("--ink-2"); ctx.font = "12px 'Barlow Semi Condensed', sans-serif";
+  ctx.fillText(bits(mx), 4, mid - half + 12); ctx.fillText(bits(mx), 4, mid + half - 4);
+  ctx.fillText(bits(mx / 2), 4, mid - half / 2 - 3); ctx.fillText(bits(mx / 2), 4, mid + half / 2 + 12);
+  const step = span > 60 ? 60 : 15;
+  for (let s = step; s < span; s += step) {
+    const xx = x(now - s); ctx.fillText(s >= 60 ? `-${s / 60} min` : `-${s} s`, xx + 3, mid - 4);
+    ctx.strokeStyle = css("--rule"); ctx.beginPath(); ctx.moveTo(xx, mid - 5); ctx.lineTo(xx, mid + 5); ctx.stroke();
+  }
+  if (pts.length < 2) return;
+
+  function area(key, yf, fill, line) {
+    ctx.beginPath(); ctx.moveTo(x(pts[0].t), mid);
+    for (const p of pts) ctx.lineTo(x(p.t), yf(p[key]));
+    ctx.lineTo(x(pts[pts.length - 1].t), mid); ctx.closePath();
+    ctx.fillStyle = fill; ctx.fill();
+    line && trace(key, yf, line, 1.6);
+  }
+  function trace(key, yf, color, w, dash) {
+    ctx.beginPath(); ctx.setLineDash(dash || []);
+    pts.forEach((p, i) => i ? ctx.lineTo(x(p.t), yf(p[key])) : ctx.moveTo(x(p.t), yf(p[key])));
+    ctx.strokeStyle = color; ctx.lineWidth = w; ctx.stroke(); ctx.setLineDash([]);
+  }
+  area("tx", yU, css("--up-fill"), css("--up"));
+  area("rx", yD, css("--down-fill"), css("--down"));
+  area("retrans", yU, css("--loss"));
+  trace("wire_tx", yU, css("--wire"), 1.4);
+  trace("nic_tx", yU, css("--nic"), 1.2, [4, 3]);
+  trace("nic_rx", yD, css("--nic"), 1.2, [4, 3]);
+  ctx.fillStyle = css("--loss");
+  for (const p of pts) if (p.drops) { ctx.beginPath(); ctx.arc(x(p.t), mid + 6, 2.5 + Math.min(4, Math.log2(p.drops)), 0, 7); ctx.fill(); }
+  ctx.strokeStyle = css("--ink"); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, mid); ctx.lineTo(W, mid); ctx.stroke();
+  $("#scale").textContent = `last ${span >= 120 ? span / 60 + " minutes" : span + " seconds"}, scale ${bits(mx)}`;
+}
+
+/* ------------------------------------------------------------- live */
+let series = [];
+function renderLive(d) {
+  const t = d.totals, nic = Object.entries(d.nic || {}).filter(([n]) => n !== "lo");
+  const ntx = nic.reduce((a, [, v]) => a + v.tx_rate, 0), nrx = nic.reduce((a, [, v]) => a + v.rx_rate, 0);
+  $("#lg-up").textContent = bits(t.tx_rate);
+  $("#lg-down").textContent = bits(t.rx_rate);
+  $("#lg-wire").textContent = bits(t.wire_tx_rate);
+  $("#lg-rtx").textContent = bits(t.retrans_rate);
+  $("#lg-nictx").textContent = bits(ntx);
+  $("#lg-nicrx").textContent = bits(nrx);
+
+  const pct = t.d_wire_tx ? 100 * t.d_retrans_bytes / t.d_wire_tx : 0;
+  $("#ls-pct").textContent = pct.toFixed(pct < 10 ? 2 : 1) + "%";
+  $("#ls-pct").classList.toggle("hot", pct > 0);
+  $("#ls-segs").textContent = t.d_retrans_segs; $("#ls-segs").classList.toggle("hot", t.d_retrans_segs > 0);
+  $("#ls-drop").textContent = t.d_udp_drops; $("#ls-drop").classList.toggle("hot", t.d_udp_drops > 0);
+
+  const ev = d.recent_events || [];
+  $("#events").innerHTML = ev.length ? ev.map(e => {
+    const tm = new Date(e.ts * 1000).toLocaleTimeString();
+    const what = e.kind === "RETRANS" ? (e.value ? `resent ${e.value} B` : "resent control segment") : "dropped, receive buffer full";
+    return `<li><span class="t">${tm}</span><span class="kind">${e.kind === "RETRANS" ? "Retransmit" : "UDP drop"}</span>` +
+      `${esc(e.comm || "?")} <span class="pid">${e.tgid || ""}</span> to ${esc(ep(e.raddr, e.rport))}, ${what}</li>`;
+  }).join("") : `<li class="empty">No retransmissions or drops yet.</li>`;
+
+  renderProcs(d);
+  const h = d.health;
+  $("#health").innerHTML =
+    `<span>Tracker CPU <b>${h.tracker_cpu_pct.toFixed(1)}%</b></span>` +
+    (h.bpf_stats ? `<span>eBPF <b>${h.bpf_avg_ns.toFixed(0)} ns</b> per probe run, <b>${h.bpf_runs_per_s.toFixed(0)}</b> runs/s, <b>${h.bpf_cpu_pct.toFixed(2)}%</b> CPU</span>` : "") +
+    `<span>Sockets tracked <b>${h.tracked_sockets}</b></span>` +
+    `<span>kretprobe misses <b>${h.kprobe_misses}</b></span><span>Perf events lost <b>${h.perf_lost}</b></span>` +
+    `<span>Loopback flows hidden <b>${t.loopback_hidden || 0}</b></span>`;
+}
+
+function renderProcs(d) {
+  const flowsBy = {};
+  for (const f of d.flows) (flowsBy[f.tgid] = flowsBy[f.tgid] || []).push(f);
+  let procs = d.procs.filter(p => state.idle || p.tx_rate || p.rx_rate || p.wire_tx_rate || (flowsBy[p.tgid] || []).length);
+  const k = state.sortK, dir = state.sortDir;
+  procs.sort((a, b) => {
+    const va = Array.isArray(a[k]) ? a[k].join() : a[k], vb = Array.isArray(b[k]) ? b[k].join() : b[k];
+    return (va > vb ? 1 : va < vb ? -1 : 0) * dir || (b.tx_rate + b.rx_rate) - (a.tx_rate + a.rx_rate);
+  });
+  if (!procs.length) {
+    $("#ptable tbody").innerHTML = `<tr><td colspan="10" class="empty">No network activity matches. Start something that talks over TCP or UDP (curl, a browser, iperf3). Ping uses ICMP and is not tracked.</td></tr>`;
+    return;
+  }
+  const rows = [];
+  for (const p of procs) {
+    const open = state.open.has(p.tgid), fl = flowsBy[p.tgid] || [];
+    const quiet = !(p.tx_rate || p.rx_rate);
+    rows.push(`<tr class="proc${quiet ? " idle" : ""}" data-pid="${p.tgid}" tabindex="0" aria-expanded="${open}">` +
+      `<td><span class="caret">${fl.length ? (open ? "▾" : "▸") : ""}</span>${esc(p.comm)}<span class="pid">${p.tgid}</span></td>` +
+      `<td class="l">${p.protos.join(", ")}</td><td>${p.remotes || "–"}</td>` +
+      `<td class="up">${rate(p.tx_rate)}</td><td class="down">${rate(p.rx_rate)}</td>` +
+      `<td class="wire">${p.protos.includes("TCP") ? rate(p.wire_tx_rate) : "–"}</td>` +
+      `<td class="${p.retrans_pct > 0 ? "bad" : ""}">${p.d_wire_tx ? p.retrans_pct.toFixed(1) + "%" : "–"}</td>` +
+      `<td>${rtt(p.max_srtt_us)}</td><td>${bytes(p.tx_bytes)}</td><td>${bytes(p.rx_bytes)}</td></tr>`);
+    if (open) {
+      fl.sort((a, b) => (b.tx_rate + b.rx_rate) - (a.tx_rate + a.rx_rate) || (b.tx_bytes + b.rx_bytes) - (a.tx_bytes + a.rx_bytes));
+      for (const f of fl) {
+        const extra = (f.proto === "TCP"
+          ? [tcpState[f.state], f.cwnd && "congestion window " + f.cwnd + " segments", f.retrans_segs && f.retrans_segs + " segments resent"]
+          : [f.udp_drops && f.udp_drops + " datagrams dropped"]).filter(Boolean).join(", ");
+        rows.push(`<tr class="flow${f.idle_s > 3 ? " idle" : ""}"><td title="${f.sockets} socket(s), local ${esc(ep(f.laddr, f.lport))}">` +
+          `${esc(ep(f.raddr, f.rport))}${f.loopback ? " (loopback)" : ""}</td>` +
+          `<td class="l">${f.proto}</td><td>${f.sockets > 1 ? f.sockets + " sockets" : ""}</td>` +
+          `<td class="up">${rate(f.tx_rate)}</td><td class="down">${rate(f.rx_rate)}</td>` +
+          `<td class="wire">${f.proto === "TCP" ? rate(f.wire_tx_rate) : "–"}</td>` +
+          `<td class="${f.retrans_pct > 0 ? "bad" : ""}">${f.d_wire_tx ? f.retrans_pct.toFixed(1) + "%" : "–"}</td>` +
+          `<td>${f.proto === "TCP" ? rtt(f.srtt_us) : "–"}</td><td>${bytes(f.tx_bytes)}</td>` +
+          `<td>${bytes(f.rx_bytes)}</td></tr>` +
+          (extra ? `<tr class="flow"><td colspan="10" style="padding-left:30px">${esc(extra)}</td></tr>` : ""));
+      }
+    }
+  }
+  $("#ptable tbody").innerHTML = rows.join("");
+}
+
+$("#ptable tbody").addEventListener("click", e => toggleRow(e.target.closest("tr.proc")));
+$("#ptable tbody").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleRow(e.target.closest("tr.proc")); } });
+function toggleRow(tr) {
+  if (!tr) return;
+  const pid = +tr.dataset.pid;
+  state.open.has(pid) ? state.open.delete(pid) : state.open.add(pid);
+  if (lastLive) renderProcs(lastLive);
+  const again = document.querySelector(`tr.proc[data-pid="${pid}"]`); again && again.focus();
+}
+document.querySelectorAll("#ptable th").forEach(th => th.addEventListener("click", () => {
+  const k = th.dataset.k;
+  state.sortDir = state.sortK === k ? -state.sortDir : (["comm", "protos"].includes(k) ? 1 : -1);
+  state.sortK = k;
+  document.querySelectorAll("#ptable th").forEach(t => t.removeAttribute("aria-sort"));
+  th.setAttribute("aria-sort", state.sortDir > 0 ? "ascending" : "descending");
+  lastLive && renderProcs(lastLive);
+}));
+
+let lastLive = null;
+async function tick() {
+  try {
+    const qs = `proto=${state.proto}&loopback=${state.loop ? 1 : 0}&idle=${state.idle ? 1 : 0}`;
+    const [d, s] = await Promise.all([getJSON("/api/live?" + qs), getJSON("/api/series")]);
+    $("#err").style.display = d.error ? "block" : "none";
+    if (d.error) $("#err").textContent = "Collector stopped: " + d.error;
+    if (!d.waiting) {
+      lastLive = d; series = s.series;
+      if (state.tab === "live") { renderLive(d); drawChart(series); }
+      $("#live").classList.remove("stale");
+      $("#livetxt").textContent = `live, every ${d.interval.toFixed(1)} s`;
+      state.last = Date.now();
+    }
+  } catch (e) {
+    $("#live").classList.add("stale"); $("#livetxt").textContent = "connection lost, retrying";
+  }
+  setTimeout(tick, Math.max(500, state.interval * 1000));
+}
+
+/* ------------------------------------------------------------- history */
+const HCOLS = {
+  name: [["Program", r => esc(r.comm), "l"], ["Processes", r => r.pids, ""], ["Remote IPs", r => esc(short(r.related)), "l"]],
+  process: [["Process", r => `${esc(r.comm)}<span class="pid">${r.pid}</span>`, "l"], ["Remote IPs", r => esc(short(r.related)), "l"]],
+  remote: [["Remote IP", r => esc(r.raddr), "l"], ["Processes", r => esc(short(r.related)), "l"]],
+  "process-remote": [["Process", r => `${esc(r.comm)}<span class="pid">${r.pid}</span>`, "l"], ["Proto", r => r.proto, "l"], ["Remote IP", r => esc(r.raddr), "l"]],
+  proto: [["Protocol", r => r.proto, "l"]],
+  port: [["Protocol", r => r.proto, "l"], ["Remote port", r => r.rport || "several", "l"]],
+};
+const short = s => { const a = (s || "").split(",").filter(Boolean); return a.slice(0, 3).join(", ") + (a.length > 3 ? ` and ${a.length - 3} more` : ""); };
+let histRows = [];
+async function loadHistory() {
+  const bucket = {"15m": 15, "1h": 60, "6h": 300, "24h": 900, "7d": 3600}[state.since];
+  const base = `since=${state.since}&proto=${state.proto === "ALL" ? "" : state.proto}&loopback=${state.loop ? 1 : 0}`;
+  try {
+    const [h, tl] = await Promise.all([getJSON(`/api/history?${base}&by=${state.by}&top=50`),
+                                        getJSON(`/api/timeline?${base}&bucket=${bucket}`)]);
+    histRows = h.rows;
+    drawTimeline(tl.rows, bucket);
+    const cols = HCOLS[state.by];
+    $("#htable thead").innerHTML = "<tr>" + cols.map(c => `<th class="${c[2] || ""}">${c[0]}</th>`).join("") +
+      "<th>Sent</th><th>Received</th><th>Total</th><th>TCP retx</th><th>UDP drops</th><th>Worst RTT</th></tr>";
+    $("#htable tbody").innerHTML = h.rows.length ? h.rows.map(r => "<tr class='proc'>" +
+      cols.map(c => `<td class="${c[2] || ""}">${c[1](r)}</td>`).join("") +
+      `<td class="up">${bytes(r.tx)}</td><td class="down">${bytes(r.rx)}</td><td>${bytes(r.tx + r.rx)}</td>` +
+      `<td class="${r.retrans_bytes ? "bad" : ""}">${r.wire_tx ? (100 * r.retrans_bytes / r.wire_tx).toFixed(2) + "%" : "–"}</td>` +
+      `<td>${r.udp_drops || "–"}</td><td>${rtt(r.max_srtt_us)}</td></tr>`).join("")
+      : `<tr><td colspan="9" class="empty">Nothing recorded in this range yet. History is written every 10 seconds while the tracker runs.</td></tr>`;
+  } catch (e) {
+    $("#htable tbody").innerHTML = `<tr><td class="empty">${esc(e.message)}</td></tr>`;
+  }
+}
+function drawTimeline(rows, bucket) {
+  const [ctx, W, H] = sizeCanvas($("#tl"));
+  ctx.clearRect(0, 0, W, H);
+  const now = Date.now() / 1000, since = {"15m": 900, "1h": 3600, "6h": 21600, "24h": 86400, "7d": 604800}[state.since];
+  const n = Math.ceil(since / bucket), bw = W / n, mid = H / 2, half = H / 2 - 14;
+  let mx = 1; for (const r of rows) mx = Math.max(mx, r.tx, r.rx);
+  for (const r of rows) {
+    const i = Math.floor((r.t - (now - since)) / bucket); if (i < 0) continue;
+    const x = i * bw, w = Math.max(1, bw - 1);
+    const hu = r.tx / mx * half, hd = r.rx / mx * half, hr = r.retrans_bytes / mx * half;
+    ctx.fillStyle = css("--up"); ctx.fillRect(x, mid - hu, w, hu);
+    ctx.fillStyle = css("--loss"); ctx.fillRect(x, mid - hr, w, hr);
+    ctx.fillStyle = css("--down"); ctx.fillRect(x, mid, w, hd);
+  }
+  ctx.strokeStyle = css("--ink"); ctx.beginPath(); ctx.moveTo(0, mid); ctx.lineTo(W, mid); ctx.stroke();
+  ctx.fillStyle = css("--ink-2"); ctx.font = "12px 'Barlow Semi Condensed', sans-serif";
+  ctx.fillText(`peak bucket ${bytes(mx)} (${bucket < 60 ? bucket + " s" : bucket / 60 + " min"} buckets)`, 4, 12);
+}
+$("#csv").addEventListener("click", () => {
+  if (!histRows.length) return;
+  const keys = Object.keys(histRows[0]);
+  const csv = [keys.join(",")].concat(histRows.map(r => keys.map(k => JSON.stringify(r[k] ?? "")).join(","))).join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], {type: "text/csv"}));
+  a.download = `bwtrack-${state.by}-${state.since}.csv`; a.click();
+});
+
+/* ------------------------------------------------------------- controls */
+document.querySelectorAll("[data-proto]").forEach(b => b.addEventListener("click", () => {
+  state.proto = b.dataset.proto;
+  document.querySelectorAll("[data-proto]").forEach(x => x.setAttribute("aria-pressed", x === b));
+  state.tab === "history" && loadHistory();
+}));
+$("#loop").addEventListener("change", e => { state.loop = e.target.checked; state.tab === "history" && loadHistory(); });
+$("#idle").addEventListener("change", e => { state.idle = e.target.checked; });
+document.querySelectorAll("[data-since]").forEach(b => b.addEventListener("click", () => {
+  state.since = b.dataset.since;
+  document.querySelectorAll("[data-since]").forEach(x => x.setAttribute("aria-pressed", x === b));
+  loadHistory();
+}));
+$("#groupby").addEventListener("change", e => { state.by = e.target.value; loadHistory(); });
+document.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", () => {
+  state.tab = b.dataset.tab;
+  document.querySelectorAll("[data-tab]").forEach(x => x.setAttribute("aria-selected", x === b));
+  $("#tab-live").hidden = state.tab !== "live"; $("#tab-history").hidden = state.tab !== "history";
+  if (state.tab === "history") loadHistory(); else if (lastLive) { renderLive(lastLive); drawChart(series); }
+}));
+$("#theme").addEventListener("click", () => {
+  const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark"
+                                                       : matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("bw-theme", document.documentElement.dataset.theme); } catch (e) {}
+  drawChart(series); state.tab === "history" && loadHistory();
+});
+window.addEventListener("resize", () => drawChart(series));
+
+getJSON("/api/info").then(i => {
+  state.interval = i.interval || 1;
+  $("#host").innerHTML = `<b>${esc(i.host)}</b>&nbsp; ${esc(i.platform)}&nbsp; kernel ${esc(i.kernel)}&nbsp; ${esc(i.arch)}`;
+  if (!i.history) document.querySelector('[data-tab="history"]').disabled = true;
+}).catch(() => {});
+tick();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "tcp_v6_truth": 10485760,
+  "tcp_v6_tracker": 10485760,
+  "udp_v6_truth": 500000,
+  "udp_v6_tracker": 500000,
+  "udp_v4mapped_truth": 500000,
+  "udp_v4mapped_tracker": 500000,
+  "summary": "TCP ::1 10485760/10485760, UDP ::1 500000/500000, UDP v4-mapped 500000/500000 (not double counted)",
+  "group": "correctness",
+  "name": "ipv6",
+  "pass": true
+}

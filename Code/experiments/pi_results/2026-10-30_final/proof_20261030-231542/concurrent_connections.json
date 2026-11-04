@@ -1,0 +1,63 @@
+{
+  "levels": [
+    {
+      "connections": 1,
+      "exact_flows": 1,
+      "total_truth": 2097152,
+      "total_tracker": 2097152,
+      "collector_cpu_pct": 4.0,
+      "max_tracked_sockets": 1045,
+      "map_read_ms": 8.69,
+      "flows_in_map": 1045,
+      "kprobe_misses": 0
+    },
+    {
+      "connections": 10,
+      "exact_flows": 10,
+      "total_truth": 20971520,
+      "total_tracker": 20971520,
+      "collector_cpu_pct": 6.81,
+      "max_tracked_sockets": 1063,
+      "map_read_ms": 12.62,
+      "flows_in_map": 1063,
+      "kprobe_misses": 0
+    },
+    {
+      "connections": 50,
+      "exact_flows": 50,
+      "total_truth": 104857600,
+      "total_tracker": 104857600,
+      "collector_cpu_pct": 5.96,
+      "max_tracked_sockets": 1157,
+      "map_read_ms": 10.18,
+      "flows_in_map": 1157,
+      "kprobe_misses": 0
+    },
+    {
+      "connections": 100,
+      "exact_flows": 100,
+      "total_truth": 209715200,
+      "total_tracker": 209715200,
+      "collector_cpu_pct": 7.22,
+      "max_tracked_sockets": 1357,
+      "map_read_ms": 12.71,
+      "flows_in_map": 1355,
+      "kprobe_misses": 0
+    },
+    {
+      "connections": 200,
+      "exact_flows": 200,
+      "total_truth": 419430400,
+      "total_tracker": 419430400,
+      "collector_cpu_pct": 12.43,
+      "max_tracked_sockets": 1755,
+      "map_read_ms": 23.07,
+      "flows_in_map": 1751,
+      "kprobe_misses": 0
+    }
+  ],
+  "summary": "1 conns: 1/1 exact; 10 conns: 10/10 exact; 50 conns: 50/50 exact; 100 conns: 100/100 exact; 200 conns: 200/200 exact",
+  "group": "scalability",
+  "name": "concurrent_connections",
+  "pass": true
+}

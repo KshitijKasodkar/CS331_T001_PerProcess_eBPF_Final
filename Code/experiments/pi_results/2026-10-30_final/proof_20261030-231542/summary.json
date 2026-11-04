@@ -1,0 +1,869 @@
+[
+  {
+    "seconds": 10,
+    "runs": 3,
+    "tcp": {
+      "off": [
+        {
+          "bps": 69953072032.24596,
+          "bytes": 87451238400,
+          "sys_cpu_pct": 45.760082730093075,
+          "client_pid": 1342,
+          "host_cpu_pct": 100.76813788028458
+        },
+        {
+          "bps": 69414425539.9725,
+          "bytes": 86789193728,
+          "sys_cpu_pct": 47.499352163773,
+          "client_pid": 1350,
+          "host_cpu_pct": 100.43924572306535
+        },
+        {
+          "bps": 26517933099.82438,
+          "bytes": 33154662400,
+          "sys_cpu_pct": 44.737503139914594,
+          "client_pid": 1423,
+          "host_cpu_pct": 78.55027519668583
+        },
+        {
+          "bps": 67609188560.8333,
+          "bytes": 84521779200,
+          "sys_cpu_pct": 44.981986618630984,
+          "client_pid": 1464,
+          "host_cpu_pct": 100.25131850483835
+        },
+        {
+          "bps": 26494501276.453224,
+          "bytes": 33125826560,
+          "sys_cpu_pct": 44.818913480885314,
+          "client_pid": 1472,
+          "host_cpu_pct": 79.1409651220162
+        },
+        {
+          "bps": 67922627062.18488,
+          "bytes": 84913684480,
+          "sys_cpu_pct": 44.84270242392986,
+          "client_pid": 1480,
+          "host_cpu_pct": 100.40498588758257
+        }
+      ],
+      "on": [
+        {
+          "bps": 47909462338.32615,
+          "bytes": 59894661120,
+          "sys_cpu_pct": 44.95014062899514,
+          "client_pid": 1434,
+          "host_cpu_pct": 94.71684066838014,
+          "tool_cpu_pct": 0.2855997459973549,
+          "tool_seen_bytes": 59894661654
+        },
+        {
+          "bps": 45405213191.057655,
+          "bytes": 56767283200,
+          "sys_cpu_pct": 45.89041095890411,
+          "client_pid": 1446,
+          "host_cpu_pct": 94.34680847660296,
+          "tool_cpu_pct": 0.2855893838296464,
+          "tool_seen_bytes": 56767283737
+        },
+        {
+          "bps": 41089326442.77484,
+          "bytes": 51368427520,
+          "sys_cpu_pct": 45.53051405419093,
+          "client_pid": 1454,
+          "host_cpu_pct": 90.79757275462556,
+          "tool_cpu_pct": 0.4283697436205305,
+          "tool_seen_bytes": 51368428055
+        }
+      ]
+    },
+    "udp64": {
+      "off": [
+        {
+          "bps": 254178751.3107189,
+          "bytes": 317761280,
+          "packets": 4965020,
+          "lost_pct": 0.3366955218710096,
+          "sys_cpu_pct": 41.29891756869276,
+          "client_pid": 1346
+        },
+        {
+          "bps": 254896874.56940663,
+          "bytes": 318644480,
+          "packets": 4978820,
+          "lost_pct": 0.146098874833796,
+          "sys_cpu_pct": 42.08044382801664,
+          "client_pid": 1419
+        },
+        {
+          "bps": 257376170.82469392,
+          "bytes": 321758080,
+          "packets": 5027470,
+          "lost_pct": 0.00724022221912811,
+          "sys_cpu_pct": 42.023346303501945,
+          "client_pid": 1427
+        },
+        {
+          "bps": 254932374.405432,
+          "bytes": 318702720,
+          "packets": 4979730,
+          "lost_pct": 0,
+          "sys_cpu_pct": 41.636715510091236,
+          "client_pid": 1468
+        },
+        {
+          "bps": 253749458.312944,
+          "bytes": 317223680,
+          "packets": 4956620,
+          "lost_pct": 0.15377414447748666,
+          "sys_cpu_pct": 41.461389427068916,
+          "client_pid": 1476
+        },
+        {
+          "bps": 255132388.20916182,
+          "bytes": 318952320,
+          "packets": 4983630,
+          "lost_pct": 0.048438587936905426,
+          "sys_cpu_pct": 41.735765616362634,
+          "client_pid": 1484
+        }
+      ],
+      "on": [
+        {
+          "bps": 127127157.45382129,
+          "bytes": 158928000,
+          "packets": 2483250,
+          "lost_pct": 0.06185442464512232,
+          "sys_cpu_pct": 42.2637301366044,
+          "client_pid": 1442,
+          "tool_cpu_pct": 0.3570140499927568
+        },
+        {
+          "bps": 128133769.70815866,
+          "bytes": 160186240,
+          "packets": 2502910,
+          "lost_pct": 0.13204629810900112,
+          "sys_cpu_pct": 42.30337078651685,
+          "client_pid": 1450,
+          "tool_cpu_pct": 0.5712244013021263
+        },
+        {
+          "bps": 127010202.89911877,
+          "bytes": 158781440,
+          "packets": 2480960,
+          "lost_pct": 0.031479749774280925,
+          "sys_cpu_pct": 42.15522054718035,
+          "client_pid": 1458,
+          "tool_cpu_pct": 0.2856132673821544
+        }
+      ]
+    },
+    "tool_idle_cpu_pct": 0.1999966877748592,
+    "tool_rss_mb_start": 219.8,
+    "tool_rss_mb_end": 220.5,
+    "tcp_gbps_off": 54.652,
+    "tcp_gbps_on": 44.801,
+    "tcp_gbps_off_sd": 21.819,
+    "tcp_gbps_on_sd": 3.45,
+    "tcp_throughput_change_pct": -18.02,
+    "udp64_kpps_off": 498.2,
+    "udp64_kpps_on": 248.9,
+    "udp64_rate_change_pct": -50.04,
+    "tool_cpu_pct_under_tcp_load": 0.33,
+    "tool_cpu_pct_under_udp_load": 0.4,
+    "accuracy_at_full_speed": [
+      {
+        "tracker": 59894661654,
+        "iperf3": 59894661120,
+        "pct": 100.0
+      },
+      {
+        "tracker": 56767283737,
+        "iperf3": 56767283200,
+        "pct": 100.0
+      },
+      {
+        "tracker": 51368428055,
+        "iperf3": 51368427520,
+        "pct": 100.0
+      }
+    ],
+    "summary": "TCP loopback 54.652 -> 44.801 Gbit/s (-18.0 %); 64 B UDP 498.2 -> 248.9 kpps (-50.0 %); tool CPU 0.33 % (TCP load), 0.20 % idle; RSS 220.5 MB; accuracy at full speed 100.000 %, 100.000 %, 100.000 %",
+    "group": "performance",
+    "name": "throughput_overhead"
+  },
+  {
+    "truth_accepted": 15535328,
+    "requested_by_app": 32374784,
+    "calls": 494,
+    "partial_sends": 164,
+    "eagain": 165,
+    "peer_received": 15535328,
+    "tracker_tx": 15535328,
+    "error_pct": 0.0,
+    "naive_size_counting_error_pct": 108.4,
+    "summary": "tracker 15535328 B = accepted 15535328 B; counting the requested size (old method) would report 32374784 B (+108 %)",
+    "group": "correctness",
+    "name": "partial_sends",
+    "pass": true
+  },
+  {
+    "truth_received": 20971520,
+    "tracker_rx": 20971520,
+    "summary": "receiver with MSG_WAITALL: tracker 20971520 B, app 20971520 B",
+    "group": "correctness",
+    "name": "recv_waitall",
+    "pass": true
+  },
+  {
+    "truth_sent": 20971520,
+    "tracker_tx": 20971520,
+    "summary": "sendfile(): tracker 20971520 B, app 20971520 B",
+    "group": "correctness",
+    "name": "sendfile",
+    "pass": true
+  },
+  {
+    "truth_per_dest": {
+      "127.0.0.2": 300000,
+      "127.0.0.3": 600000,
+      "127.0.0.4": 900000
+    },
+    "tracker_per_dest": {
+      "127.0.0.2": 300000,
+      "127.0.0.3": 600000,
+      "127.0.0.4": 900000
+    },
+    "receiver_counts": {
+      "127.0.0.2": 300000,
+      "127.0.0.3": 600000,
+      "127.0.0.4": 900000
+    },
+    "tracker_bytes_to_0.0.0.0": 0,
+    "summary": "one sendto() socket -> 3 IPs: 127.0.0.2 300000/300000, 127.0.0.3 600000/600000, 127.0.0.4 900000/900000",
+    "group": "correctness",
+    "name": "udp_unconnected_multi_dest",
+    "pass": true
+  },
+  {
+    "tcp_v6_truth": 10485760,
+    "tcp_v6_tracker": 10485760,
+    "udp_v6_truth": 500000,
+    "udp_v6_tracker": 500000,
+    "udp_v4mapped_truth": 500000,
+    "udp_v4mapped_tracker": 500000,
+    "summary": "TCP ::1 10485760/10485760, UDP ::1 500000/500000, UDP v4-mapped 500000/500000 (not double counted)",
+    "group": "correctness",
+    "name": "ipv6",
+    "pass": true
+  },
+  {
+    "truth": 41943040,
+    "tracker_tx": 41943040,
+    "max_sockets_in_row": 8,
+    "summary": "8 threads -> one PID: 41943040/41943040 B, 8 sockets",
+    "group": "correctness",
+    "name": "threads_one_pid",
+    "pass": true
+  },
+  {
+    "children": {
+      "1530": {
+        "truth": 3145728,
+        "tracker": 3145728
+      },
+      "1529": {
+        "truth": 3145728,
+        "tracker": 3145728
+      },
+      "1531": {
+        "truth": 3145728,
+        "tracker": 3145728
+      },
+      "1528": {
+        "truth": 3145728,
+        "tracker": 3145728
+      }
+    },
+    "parent_truth": 1048576,
+    "parent_tracker": 1048576,
+    "summary": "parent + 4 forked children: 4/4 children exact, parent 1048576/1048576",
+    "group": "correctness",
+    "name": "fork_separate_pids",
+    "pass": true
+  },
+  {
+    "connections": 500,
+    "truth": 10000000,
+    "tracker_tx": 10000000,
+    "tracker_wire_tx": 10000000,
+    "peer_received": 10000000,
+    "summary": "500 short connections: app 10000000/10000000 B, wire 10000000 B (100.00 %)",
+    "group": "correctness",
+    "name": "short_connections_reuse",
+    "pass": true
+  },
+  {
+    "loopback_rows_flagged": true,
+    "own_ip": "10.58.105.107",
+    "own_ip_flagged_loopback": true,
+    "summary": "127.x flagged: True; own IP 10.58.105.107 flagged: True",
+    "group": "correctness",
+    "name": "loopback_detection",
+    "pass": true
+  },
+  {
+    "levels": [
+      {
+        "connections": 1,
+        "exact_flows": 1,
+        "total_truth": 2097152,
+        "total_tracker": 2097152,
+        "collector_cpu_pct": 4.0,
+        "max_tracked_sockets": 1045,
+        "map_read_ms": 8.69,
+        "flows_in_map": 1045,
+        "kprobe_misses": 0
+      },
+      {
+        "connections": 10,
+        "exact_flows": 10,
+        "total_truth": 20971520,
+        "total_tracker": 20971520,
+        "collector_cpu_pct": 6.81,
+        "max_tracked_sockets": 1063,
+        "map_read_ms": 12.62,
+        "flows_in_map": 1063,
+        "kprobe_misses": 0
+      },
+      {
+        "connections": 50,
+        "exact_flows": 50,
+        "total_truth": 104857600,
+        "total_tracker": 104857600,
+        "collector_cpu_pct": 5.96,
+        "max_tracked_sockets": 1157,
+        "map_read_ms": 10.18,
+        "flows_in_map": 1157,
+        "kprobe_misses": 0
+      },
+      {
+        "connections": 100,
+        "exact_flows": 100,
+        "total_truth": 209715200,
+        "total_tracker": 209715200,
+        "collector_cpu_pct": 7.22,
+        "max_tracked_sockets": 1357,
+        "map_read_ms": 12.71,
+        "flows_in_map": 1355,
+        "kprobe_misses": 0
+      },
+      {
+        "connections": 200,
+        "exact_flows": 200,
+        "total_truth": 419430400,
+        "total_tracker": 419430400,
+        "collector_cpu_pct": 12.43,
+        "max_tracked_sockets": 1755,
+        "map_read_ms": 23.07,
+        "flows_in_map": 1751,
+        "kprobe_misses": 0
+      }
+    ],
+    "summary": "1 conns: 1/1 exact; 10 conns: 10/10 exact; 50 conns: 50/50 exact; 100 conns: 100/100 exact; 200 conns: 200/200 exact",
+    "group": "scalability",
+    "name": "concurrent_connections",
+    "pass": true
+  },
+  {
+    "processes": 50,
+    "exact": 49,
+    "summary": "50 processes at once: 49/50 attributed exactly",
+    "group": "scalability",
+    "name": "concurrent_processes",
+    "pass": false
+  },
+  {
+    "send_calls": 1363107,
+    "calls_per_s": 170388,
+    "truth": 87238848,
+    "tracker_tx": 87238848,
+    "per_program_cost": {
+      "tracepoint__sock__inet_sock_set_state": {
+        "runs": 12,
+        "avg_ns": 1032.2
+      },
+      "on_tcp_send_enter": {
+        "runs": 1363445,
+        "avg_ns": 143.1
+      },
+      "on_tcp_send_return": {
+        "runs": 1363445,
+        "avg_ns": 603.6
+      },
+      "on_tcp_cleanup_rbuf": {
+        "runs": 1816141,
+        "avg_ns": 432.5
+      },
+      "on_tcp_rcv_established": {
+        "runs": 2720311,
+        "avg_ns": 97.9
+      }
+    },
+    "map_memlock_bytes": {
+      "flows": 3670976,
+      "tcp_snaps": 3277760,
+      "sk_owner": 2491328,
+      "rx_seq": 1311680,
+      "udp_drops": 328640,
+      "tcp_send_args": 427328,
+      "udp_send_args": 427328
+    },
+    "kprobe_misses": 0,
+    "perf_lost": 0,
+    "summary": "170,388 send() calls/s of 64 B: tracker 87238848/87238848 B; send probes on_tcp_send_enter 143.1 ns, on_tcp_send_return 603.6 ns",
+    "group": "scalability",
+    "name": "event_rate",
+    "pass": true
+  },
+  {
+    "per_program": {
+      "tracepoint__sock__inet_sock_set_state": {
+        "runs": 9382,
+        "avg_ns": 1331.5
+      },
+      "tracepoint__tcp__tcp_retransmit_skb": {
+        "runs": 341,
+        "avg_ns": 8030.9
+      },
+      "on_tcp_send_enter": {
+        "runs": 1368534,
+        "avg_ns": 144.6
+      },
+      "on_tcp_send_return": {
+        "runs": 1368534,
+        "avg_ns": 608.3
+      },
+      "on_tcp_cleanup_rbuf": {
+        "runs": 1837505,
+        "avg_ns": 455.4
+      },
+      "on_tcp_rcv_established": {
+        "runs": 2739487,
+        "avg_ns": 99.9
+      },
+      "on_udp_send_enter": {
+        "runs": 2300,
+        "avg_ns": 197.6
+      },
+      "on_udp_send_return": {
+        "runs": 2300,
+        "avg_ns": 458.7
+      },
+      "on_udpv6_send_enter": {
+        "runs": 1000,
+        "avg_ns": 247.6
+      },
+      "on_udpv6_send_return": {
+        "runs": 1000,
+        "avg_ns": 629.8
+      },
+      "on_skb_consume_udp": {
+        "runs": 2800,
+        "avg_ns": 534.5
+      },
+      "on_udp_enqueue_enter": {
+        "runs": 2800,
+        "avg_ns": 46.9
+      },
+      "on_udp_enqueue_return": {
+        "runs": 2800,
+        "avg_ns": 38.8
+      }
+    },
+    "map_memlock_bytes": {
+      "flows": 3670976,
+      "tcp_snaps": 3277760,
+      "sk_owner": 2491328,
+      "rx_seq": 1311680,
+      "udp_drops": 328640,
+      "tcp_send_args": 427328,
+      "udp_send_args": 427328
+    },
+    "kprobe_misses": 0,
+    "perf_lost": 0,
+    "summary": "7,338,783 eBPF runs, avg 294 ns; maps 11.4 MB; kretprobe misses 0, perf lost 0",
+    "group": "performance",
+    "name": "ebpf_cost_all_tests"
+  },
+  {
+    "map_capacity": 256,
+    "flows_generated": 600,
+    "tool_alive": true,
+    "truth": 5880000,
+    "tracker": 35200,
+    "captured_pct": 0.5986,
+    "captured_pct_default_16384": 100.0,
+    "summary": "600 UDP flows: default map 100.0 % captured; forced 256-entry map: tool alive=True, 0.6 % captured (LRU evicts, memory stays bounded, no crash)",
+    "group": "reliability",
+    "name": "map_overflow_lru",
+    "pass": true
+  },
+  {
+    "true_rate_Bps": 2097152,
+    "sender_running_when_attached": true,
+    "app_rates": [
+      2093173.2293442595,
+      2093436.8696984304,
+      2094000.9369201853,
+      2094242.7470858498,
+      2110650.725683438,
+      2093301.1193015159,
+      2093313.9486482257,
+      2093217.4419708634,
+      2093185.004152707,
+      2109597.2616656097,
+      2093305.5656761273,
+      2093330.7377780501,
+      2093399.0525682736
+    ],
+    "wire_rates": [
+      1913291.1549474872,
+      2126146.8207874685,
+      2126719.701559563,
+      2126965.2900090665,
+      2127012.3592158677,
+      2126008.949290602,
+      2126021.9790958543,
+      1913331.5680514923,
+      2125891.019842593,
+      2125950.7288103043,
+      2126013.4651398165,
+      2126039.030555832,
+      2126108.4127646526
+    ],
+    "max_reported_Bps": 2127012.3592158677,
+    "summary": "tracker started 5 s into a 2 MB/s transfer: max reported 2.03 MB/s (no spike from earlier bytes)",
+    "group": "reliability",
+    "name": "start_mid_transfer",
+    "pass": true
+  },
+  {
+    "minutes": 30.0,
+    "rounds": 837,
+    "processes": 2511,
+    "recorder_alive": true,
+    "recorder_cpu_pct": 1.9,
+    "rss_samples": [
+      {
+        "min": 0.0,
+        "rss_mb": 220.3,
+        "cpu_s": 0.0
+      },
+      {
+        "min": 0.51,
+        "rss_mb": 221.2,
+        "cpu_s": 0.25
+      },
+      {
+        "min": 1.01,
+        "rss_mb": 221.3,
+        "cpu_s": 0.72
+      },
+      {
+        "min": 1.51,
+        "rss_mb": 221.3,
+        "cpu_s": 1.2
+      },
+      {
+        "min": 2.01,
+        "rss_mb": 221.3,
+        "cpu_s": 1.7
+      },
+      {
+        "min": 2.52,
+        "rss_mb": 221.4,
+        "cpu_s": 2.21
+      },
+      {
+        "min": 3.02,
+        "rss_mb": 221.4,
+        "cpu_s": 2.73
+      },
+      {
+        "min": 3.52,
+        "rss_mb": 221.4,
+        "cpu_s": 3.25
+      },
+      {
+        "min": 4.02,
+        "rss_mb": 221.4,
+        "cpu_s": 3.8
+      },
+      {
+        "min": 4.52,
+        "rss_mb": 221.4,
+        "cpu_s": 4.33
+      },
+      {
+        "min": 5.03,
+        "rss_mb": 221.4,
+        "cpu_s": 4.9
+      },
+      {
+        "min": 5.53,
+        "rss_mb": 221.4,
+        "cpu_s": 5.47
+      },
+      {
+        "min": 6.03,
+        "rss_mb": 221.4,
+        "cpu_s": 6.03
+      },
+      {
+        "min": 6.53,
+        "rss_mb": 221.5,
+        "cpu_s": 6.61
+      },
+      {
+        "min": 7.03,
+        "rss_mb": 222.9,
+        "cpu_s": 7.19
+      },
+      {
+        "min": 7.54,
+        "rss_mb": 222.9,
+        "cpu_s": 7.77
+      },
+      {
+        "min": 8.04,
+        "rss_mb": 222.9,
+        "cpu_s": 8.36
+      },
+      {
+        "min": 8.54,
+        "rss_mb": 222.9,
+        "cpu_s": 8.93
+      },
+      {
+        "min": 9.04,
+        "rss_mb": 222.9,
+        "cpu_s": 9.54
+      },
+      {
+        "min": 9.54,
+        "rss_mb": 222.9,
+        "cpu_s": 10.12
+      },
+      {
+        "min": 10.05,
+        "rss_mb": 222.9,
+        "cpu_s": 10.69
+      },
+      {
+        "min": 10.55,
+        "rss_mb": 222.9,
+        "cpu_s": 11.29
+      },
+      {
+        "min": 11.05,
+        "rss_mb": 222.9,
+        "cpu_s": 11.88
+      },
+      {
+        "min": 11.55,
+        "rss_mb": 222.9,
+        "cpu_s": 12.44
+      },
+      {
+        "min": 12.05,
+        "rss_mb": 222.9,
+        "cpu_s": 13.04
+      },
+      {
+        "min": 12.56,
+        "rss_mb": 222.9,
+        "cpu_s": 13.63
+      },
+      {
+        "min": 13.06,
+        "rss_mb": 222.9,
+        "cpu_s": 14.2
+      },
+      {
+        "min": 13.56,
+        "rss_mb": 222.9,
+        "cpu_s": 14.79
+      },
+      {
+        "min": 14.06,
+        "rss_mb": 222.9,
+        "cpu_s": 15.38
+      },
+      {
+        "min": 14.56,
+        "rss_mb": 222.9,
+        "cpu_s": 15.96
+      },
+      {
+        "min": 15.06,
+        "rss_mb": 222.9,
+        "cpu_s": 16.55
+      },
+      {
+        "min": 15.57,
+        "rss_mb": 222.9,
+        "cpu_s": 17.14
+      },
+      {
+        "min": 16.07,
+        "rss_mb": 222.9,
+        "cpu_s": 17.74
+      },
+      {
+        "min": 16.57,
+        "rss_mb": 223.0,
+        "cpu_s": 18.33
+      },
+      {
+        "min": 17.07,
+        "rss_mb": 223.0,
+        "cpu_s": 18.91
+      },
+      {
+        "min": 17.58,
+        "rss_mb": 223.0,
+        "cpu_s": 19.49
+      },
+      {
+        "min": 18.08,
+        "rss_mb": 223.0,
+        "cpu_s": 20.08
+      },
+      {
+        "min": 18.58,
+        "rss_mb": 223.0,
+        "cpu_s": 20.67
+      },
+      {
+        "min": 19.08,
+        "rss_mb": 223.0,
+        "cpu_s": 21.24
+      },
+      {
+        "min": 19.58,
+        "rss_mb": 223.0,
+        "cpu_s": 21.83
+      },
+      {
+        "min": 20.09,
+        "rss_mb": 223.0,
+        "cpu_s": 22.42
+      },
+      {
+        "min": 20.59,
+        "rss_mb": 223.0,
+        "cpu_s": 22.99
+      },
+      {
+        "min": 21.09,
+        "rss_mb": 223.0,
+        "cpu_s": 23.59
+      },
+      {
+        "min": 21.59,
+        "rss_mb": 223.0,
+        "cpu_s": 24.17
+      },
+      {
+        "min": 22.09,
+        "rss_mb": 223.0,
+        "cpu_s": 24.76
+      },
+      {
+        "min": 22.6,
+        "rss_mb": 223.0,
+        "cpu_s": 25.34
+      },
+      {
+        "min": 23.1,
+        "rss_mb": 223.0,
+        "cpu_s": 25.94
+      },
+      {
+        "min": 23.6,
+        "rss_mb": 223.0,
+        "cpu_s": 26.5
+      },
+      {
+        "min": 24.1,
+        "rss_mb": 223.0,
+        "cpu_s": 27.11
+      },
+      {
+        "min": 24.6,
+        "rss_mb": 223.0,
+        "cpu_s": 27.69
+      },
+      {
+        "min": 25.11,
+        "rss_mb": 223.0,
+        "cpu_s": 28.27
+      },
+      {
+        "min": 25.61,
+        "rss_mb": 223.0,
+        "cpu_s": 28.86
+      },
+      {
+        "min": 26.11,
+        "rss_mb": 223.0,
+        "cpu_s": 29.44
+      },
+      {
+        "min": 26.61,
+        "rss_mb": 223.0,
+        "cpu_s": 30.05
+      },
+      {
+        "min": 27.11,
+        "rss_mb": 223.0,
+        "cpu_s": 30.65
+      },
+      {
+        "min": 27.62,
+        "rss_mb": 223.0,
+        "cpu_s": 31.26
+      },
+      {
+        "min": 28.12,
+        "rss_mb": 223.0,
+        "cpu_s": 31.84
+      },
+      {
+        "min": 28.62,
+        "rss_mb": 223.3,
+        "cpu_s": 32.44
+      },
+      {
+        "min": 29.12,
+        "rss_mb": 223.3,
+        "cpu_s": 33.08
+      },
+      {
+        "min": 29.62,
+        "rss_mb": 223.3,
+        "cpu_s": 33.68
+      }
+    ],
+    "rss_first_mb": 220.3,
+    "rss_last_mb": 223.3,
+    "exact_in_sqlite": 2511,
+    "truth_bytes": 3051474336,
+    "sqlite_bytes": 3051474336,
+    "summary": "30.0 min, 2511 short-lived processes: recorder alive=True, CPU 1.90 %, RSS 220.3 -> 223.3 MB, 2511/2511 processes exact in SQLite history",
+    "group": "reliability",
+    "name": "soak",
+    "pass": true
+  }
+]

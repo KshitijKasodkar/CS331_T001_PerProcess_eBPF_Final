@@ -1,0 +1,187 @@
+<!doctype html><meta charset='utf-8'><title>bwtrack experiments</title>
+<style>body{font:15px/1.5 system-ui,sans-serif;max-width:1100px;margin:30px auto;padding:0 16px;color:#1c2a33}table{border-collapse:collapse;font-size:13px;margin:8px 0 20px}td,th{border:1px solid #ccd;padding:3px 7px;text-align:right}th{background:#eef2f1}svg{max-width:100%;height:auto;display:block;margin:14px 0 26px}</style>
+<h1>eBPF bandwidth tracker - accuracy and packet-loss experiments</h1>
+<p>Host kasodkar, kernel 6.18.50+rpt-rpi-2712, Raspberry Pi 5 Model B Rev 1.1. Peer 10.58.105.150 via wlan0. Loss applied with tc netem (both), extra delay 0.0 ms. Started 2026-10-31 00:02:34.</p>
+<h2>1. TCP upload: socket layer vs wire</h2>
+<p>The app-layer counter (kprobe on tcp_sendmsg return) should match what the app sent exactly. The wire counter (tcp_sock->bytes_sent) is larger whenever segments are lost and resent.</p>
+<table>
+<tr><th>netem loss %</th><th>sendfile</th><th>app sent (truth)</th><th>eBPF app tx</th><th>app accuracy %</th><th>eBPF wire tx</th><th>retransmitted B</th><th>retx % of wire</th><th>retx segs</th><th>NIC tx B</th><th>goodput Mbit/s</th><th>sRTT ms</th><th>per-sample (0.5 s) app vs wire dev % (mean/max)</th><th>wire lags app by s</th></tr>
+<tr><td>0.0</td><td>False</td><td>20971539</td><td>20971539</td><td>100.0</td><td>20971539</td><td>0</td><td>0.0</td><td>0</td><td>21928085</td><td>187.806</td><td>25.98</td><td>21.45/22.29</td><td>0.0</td></tr>
+<tr><td>1.0</td><td>False</td><td>20971539</td><td>20971539</td><td>100.0</td><td>21181515</td><td>209976</td><td>0.991</td><td>146</td><td>21928167</td><td>165.633</td><td>18.57</td><td>38.82/75.36</td><td>0.0</td></tr>
+<tr><td>2.0</td><td>False</td><td>20971539</td><td>20971539</td><td>100.0</td><td>21268379</td><td>296840</td><td>1.396</td><td>205</td><td>21928085</td><td>162.297</td><td>12.77</td><td>19.63/33.84</td><td>0.0</td></tr>
+<tr><td>5.0</td><td>False</td><td>20971539</td><td>20971539</td><td>100.0</td><td>22226955</td><td>1255416</td><td>5.648</td><td>867</td><td>21946531</td><td>10.04</td><td>8.46</td><td>35.38/491.73</td><td>1.0</td></tr>
+</table>
+<h2>2. TCP download</h2>
+<table>
+<tr><th>netem loss %</th><th>app received (truth)</th><th>eBPF app rx</th><th>accuracy %</th><th>peer retx % (if peer traced)</th><th>goodput Mbit/s</th></tr>
+<tr><td>0.0</td><td>20971520</td><td>20971520</td><td>100.0</td><td></td><td>186.827</td></tr>
+<tr><td>1.0</td><td>20971520</td><td>20971520</td><td>100.0</td><td></td><td>15.359</td></tr>
+<tr><td>2.0</td><td>20971520</td><td>20971520</td><td>100.0</td><td></td><td>14.445</td></tr>
+<tr><td>5.0</td><td>20971520</td><td>20971520</td><td>100.0</td><td></td><td>11.327</td></tr>
+<tr><td>10.0</td><td>20971520</td><td>20971520</td><td>100.0</td><td></td><td>6.358</td></tr>
+</table>
+<h2>3. UDP upload: the sender cannot see loss</h2>
+<table>
+<tr><th>netem loss %</th><th>app sent (truth)</th><th>eBPF sender tx</th><th>accuracy %</th><th>true loss % (seq numbers)</th><th>eBPF measured loss % (both ends traced)</th><th>eBPF rcvbuf drops</th></tr>
+<tr><td>0.0</td><td>12500400</td><td>12500400</td><td>100.0</td><td>0.0</td><td></td><td></td></tr>
+<tr><td>1.0</td><td>12500400</td><td>12500400</td><td>100.0</td><td>0.902</td><td></td><td></td></tr>
+<tr><td>2.0</td><td>12500400</td><td>12500400</td><td>100.0</td><td>1.795</td><td></td><td></td></tr>
+<tr><td>5.0</td><td>12500400</td><td>12500400</td><td>100.0</td><td>4.944</td><td></td><td></td></tr>
+<tr><td>10.0</td><td>12500400</td><td>12500400</td><td>100.0</td><td>9.916</td><td></td><td></td></tr>
+</table>
+<h2>4. UDP download</h2>
+<table>
+<tr><th>netem loss %</th><th>peer sent</th><th>app received (truth)</th><th>eBPF app rx</th><th>accuracy %</th><th>true loss %</th><th>eBPF measured loss %</th></tr>
+<tr><td>0.0</td><td>12499200</td><td>12442800</td><td>12442800</td><td>100.0</td><td>0.451</td><td>0.451</td></tr>
+<tr><td>1.0</td><td>12500400</td><td>12374400</td><td>12374400</td><td>100.0</td><td>1.008</td><td>1.008</td></tr>
+<tr><td>2.0</td><td>12499200</td><td>12252000</td><td>12252000</td><td>100.0</td><td>1.978</td><td>1.978</td></tr>
+<tr><td>5.0</td><td>12500400</td><td>11875200</td><td>11875200</td><td>100.0</td><td>5.001</td><td>5.001</td></tr>
+<tr><td>10.0</td><td>12499200</td><td>11239200</td><td>11239200</td><td>100.0</td><td>10.081</td><td>10.081</td></tr>
+</table>
+<h2>Tracker health during the runs</h2>
+<table>
+<tr><th>mode</th><th>loss %</th><th>kretprobe misses</th><th>tracker CPU % (peak)</th><th>eBPF ns/run</th><th>eBPF CPU %</th></tr>
+<tr><td>tcp-up</td><td>0.0</td><td>0</td><td>2.0</td><td>194.4</td><td>0.045</td></tr>
+<tr><td>tcp-down</td><td>0.0</td><td>0</td><td>0.0</td><td>888.3</td><td>0.264</td></tr>
+<tr><td>udp-up</td><td>0.0</td><td>0</td><td>2.0</td><td>486.3</td><td>0.198</td></tr>
+<tr><td>udp-down</td><td>0.0</td><td>0</td><td>2.0</td><td>895.7</td><td>0.199</td></tr>
+<tr><td>tcp-up</td><td>1.0</td><td>0</td><td>2.0</td><td>417.0</td><td>0.059</td></tr>
+<tr><td>tcp-down</td><td>1.0</td><td>0</td><td>2.0</td><td>558.7</td><td>0.091</td></tr>
+<tr><td>udp-up</td><td>1.0</td><td>0</td><td>2.0</td><td>404.6</td><td>0.196</td></tr>
+<tr><td>udp-down</td><td>1.0</td><td>0</td><td>2.0</td><td>484.8</td><td>0.124</td></tr>
+<tr><td>tcp-up</td><td>2.0</td><td>0</td><td>2.0</td><td>297.6</td><td>0.045</td></tr>
+<tr><td>tcp-down</td><td>2.0</td><td>0</td><td>2.0</td><td>531.1</td><td>0.106</td></tr>
+<tr><td>udp-up</td><td>2.0</td><td>0</td><td>2.0</td><td>397.0</td><td>0.192</td></tr>
+<tr><td>udp-down</td><td>2.0</td><td>0</td><td>2.0</td><td>594.3</td><td>0.2</td></tr>
+<tr><td>tcp-up</td><td>5.0</td><td>0</td><td>2.0</td><td>618.2</td><td>0.026</td></tr>
+<tr><td>tcp-down</td><td>5.0</td><td>0</td><td>2.0</td><td>435.6</td><td>0.07</td></tr>
+<tr><td>udp-up</td><td>5.0</td><td>0</td><td>2.0</td><td>480.1</td><td>0.201</td></tr>
+<tr><td>udp-down</td><td>5.0</td><td>0</td><td>2.0</td><td>503.3</td><td>0.119</td></tr>
+<tr><td>tcp-down</td><td>10.0</td><td>0</td><td>2.0</td><td>428.1</td><td>0.058</td></tr>
+<tr><td>udp-up</td><td>10.0</td><td>0</td><td>2.0</td><td>407.3</td><td>0.195</td></tr>
+<tr><td>udp-down</td><td>10.0</td><td>0</td><td>2.0</td><td>577.9</td><td>0.189</td></tr>
+</table>
+<h2>Charts</h2><svg viewBox="0 0 640 300" width="640" height="300" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="12">
+<text x="64" y="16" font-weight="600">TCP: retransmitted share of wire bytes vs configured loss</text>
+<line x1="64" x2="624" y1="260.0" y2="260.0" stroke="#ddd"/>
+<text x="58" y="264.0" text-anchor="end" fill="#555">0</text>
+<line x1="64" x2="624" y1="202.0" y2="202.0" stroke="#ddd"/>
+<text x="58" y="206.0" text-anchor="end" fill="#555">1.55</text>
+<line x1="64" x2="624" y1="144.0" y2="144.0" stroke="#ddd"/>
+<text x="58" y="148.0" text-anchor="end" fill="#555">3.11</text>
+<line x1="64" x2="624" y1="86.0" y2="86.0" stroke="#ddd"/>
+<text x="58" y="90.0" text-anchor="end" fill="#555">4.66</text>
+<line x1="64" x2="624" y1="28.0" y2="28.0" stroke="#ddd"/>
+<text x="58" y="32.0" text-anchor="end" fill="#555">6.21</text>
+<text x="64.0" y="276" text-anchor="middle" fill="#555">0</text>
+<text x="176.0" y="276" text-anchor="middle" fill="#555">1</text>
+<text x="288.0" y="276" text-anchor="middle" fill="#555">2</text>
+<text x="400.0" y="276" text-anchor="middle" fill="#555">3</text>
+<text x="512.0" y="276" text-anchor="middle" fill="#555">4</text>
+<text x="624.0" y="276" text-anchor="middle" fill="#555">5</text>
+<text x="344.0" y="294" text-anchor="middle" fill="#333">netem loss %</text>
+<text x="14" y="144.0" text-anchor="middle" fill="#333" transform="rotate(-90 14 144.0)">% of wire bytes</text>
+<path d="M64.0,260.0 L176.0,223.0 L288.0,207.9 L624.0,49.1" fill="none" stroke="#b5367a" stroke-width="2"/>
+<circle cx="64.0" cy="260.0" r="3" fill="#b5367a"/>
+<circle cx="176.0" cy="223.0" r="3" fill="#b5367a"/>
+<circle cx="288.0" cy="207.9" r="3" fill="#b5367a"/>
+<circle cx="624.0" cy="49.1" r="3" fill="#b5367a"/>
+<line x1="72" x2="90" y1="32" y2="32" stroke="#b5367a" stroke-width="2"/><text x="94" y="36" fill="#333">measured retx %</text>
+<path d="M64.0,260.0 L624.0,73.3" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,4"/>
+<circle cx="64.0" cy="260.0" r="3" fill="#999"/>
+<circle cx="624.0" cy="73.3" r="3" fill="#999"/>
+<line x1="207" x2="225" y1="32" y2="32" stroke="#999" stroke-width="2" stroke-dasharray="5,4"/><text x="229" y="36" fill="#333">y = x</text>
+</svg><svg viewBox="0 0 640 300" width="640" height="300" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="12">
+<text x="64" y="16" font-weight="600">TCP goodput vs loss (and the Mathis model MSS/RTT * 1.22/sqrt(p))</text>
+<line x1="64" x2="624" y1="260.0" y2="260.0" stroke="#ddd"/>
+<text x="58" y="264.0" text-anchor="end" fill="#555">0</text>
+<line x1="64" x2="624" y1="202.0" y2="202.0" stroke="#ddd"/>
+<text x="58" y="206.0" text-anchor="end" fill="#555">54</text>
+<line x1="64" x2="624" y1="144.0" y2="144.0" stroke="#ddd"/>
+<text x="58" y="148.0" text-anchor="end" fill="#555">108</text>
+<line x1="64" x2="624" y1="86.0" y2="86.0" stroke="#ddd"/>
+<text x="58" y="90.0" text-anchor="end" fill="#555">162</text>
+<line x1="64" x2="624" y1="28.0" y2="28.0" stroke="#ddd"/>
+<text x="58" y="32.0" text-anchor="end" fill="#555">216</text>
+<text x="64.0" y="276" text-anchor="middle" fill="#555">0</text>
+<text x="176.0" y="276" text-anchor="middle" fill="#555">1</text>
+<text x="288.0" y="276" text-anchor="middle" fill="#555">2</text>
+<text x="400.0" y="276" text-anchor="middle" fill="#555">3</text>
+<text x="512.0" y="276" text-anchor="middle" fill="#555">4</text>
+<text x="624.0" y="276" text-anchor="middle" fill="#555">5</text>
+<text x="344.0" y="294" text-anchor="middle" fill="#333">netem loss %</text>
+<text x="14" y="144.0" text-anchor="middle" fill="#333" transform="rotate(-90 14 144.0)">Mbit/s</text>
+<path d="M64.0,58.3 L176.0,82.1 L288.0,85.7 L624.0,249.2" fill="none" stroke="#3d5a80" stroke-width="2"/>
+<circle cx="64.0" cy="58.3" r="3" fill="#3d5a80"/>
+<circle cx="176.0" cy="82.1" r="3" fill="#3d5a80"/>
+<circle cx="288.0" cy="85.7" r="3" fill="#3d5a80"/>
+<circle cx="624.0" cy="249.2" r="3" fill="#3d5a80"/>
+<line x1="72" x2="90" y1="32" y2="32" stroke="#3d5a80" stroke-width="2"/><text x="94" y="36" fill="#333">measured</text>
+<path d="M176.0,251.8 L288.0,251.6 L624.0,252.0" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="5,4"/>
+<circle cx="176.0" cy="251.8" r="3" fill="#999"/>
+<circle cx="288.0" cy="251.6" r="3" fill="#999"/>
+<circle cx="624.0" cy="252.0" r="3" fill="#999"/>
+<line x1="158" x2="176" y1="32" y2="32" stroke="#999" stroke-width="2" stroke-dasharray="5,4"/><text x="180" y="36" fill="#333">Mathis prediction</text>
+</svg><svg viewBox="0 0 640 300" width="640" height="300" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="12">
+<text x="64" y="16" font-weight="600">Per-interval rates, TCP upload at 5.0% loss</text>
+<line x1="64" x2="624" y1="260.0" y2="260.0" stroke="#ddd"/>
+<text x="58" y="264.0" text-anchor="end" fill="#555">0</text>
+<line x1="64" x2="624" y1="202.0" y2="202.0" stroke="#ddd"/>
+<text x="58" y="206.0" text-anchor="end" fill="#555">24</text>
+<line x1="64" x2="624" y1="144.0" y2="144.0" stroke="#ddd"/>
+<text x="58" y="148.0" text-anchor="end" fill="#555">48</text>
+<line x1="64" x2="624" y1="86.0" y2="86.0" stroke="#ddd"/>
+<text x="58" y="90.0" text-anchor="end" fill="#555">72</text>
+<line x1="64" x2="624" y1="28.0" y2="28.0" stroke="#ddd"/>
+<text x="58" y="32.0" text-anchor="end" fill="#555">96</text>
+<text x="64.0" y="276" text-anchor="middle" fill="#555">0</text>
+<text x="176.0" y="276" text-anchor="middle" fill="#555">3.4</text>
+<text x="288.0" y="276" text-anchor="middle" fill="#555">6.81</text>
+<text x="400.0" y="276" text-anchor="middle" fill="#555">10.2</text>
+<text x="512.0" y="276" text-anchor="middle" fill="#555">13.6</text>
+<text x="624.0" y="276" text-anchor="middle" fill="#555">17</text>
+<text x="344.0" y="294" text-anchor="middle" fill="#333">seconds</text>
+<text x="14" y="144.0" text-anchor="middle" fill="#333" transform="rotate(-90 14 144.0)">Mbit/s</text>
+<path d="M64.0,168.9 L80.5,103.0 L96.9,237.2 L113.4,229.6 L129.9,254.9 L146.3,249.9 L162.8,252.4 L179.2,249.9 L195.7,257.5 L212.2,244.8 L228.7,257.5 L245.1,252.4 L261.6,252.4 L278.1,222.1 L294.6,222.0 L311.0,247.3 L327.5,254.9 L344.0,244.8 L360.5,224.6 L376.9,229.6 L393.4,247.3 L409.9,224.6 L426.3,257.5 L442.8,222.0 L459.2,232.1 L475.7,242.3 L492.2,211.9 L508.7,214.4 L525.1,257.5 L541.6,249.9 L558.1,254.9 L574.6,249.9 L591.1,249.9 L607.5,260.0 L624.0,260.0" fill="none" stroke="#b5367a" stroke-width="2"/>
+<line x1="72" x2="90" y1="32" y2="32" stroke="#b5367a" stroke-width="2"/><text x="94" y="36" fill="#333">app (tcp_sendmsg)</text>
+<path d="M64.0,244.6 L80.5,49.1 L96.9,233.8 L113.4,226.0 L129.9,254.9 L146.3,251.3 L162.8,251.6 L179.2,249.6 L195.7,256.4 L212.2,243.4 L228.7,255.7 L245.1,251.5 L261.6,253.1 L278.1,221.5 L294.6,219.4 L311.0,246.9 L327.5,253.6 L344.0,246.2 L360.5,221.1 L376.9,228.2 L393.4,245.4 L409.9,220.7 L426.3,256.0 L442.8,224.0 L459.2,227.1 L475.7,241.6 L492.2,211.5 L508.7,211.5 L525.1,257.1 L541.6,253.9 L558.1,247.8 L574.6,251.3 L591.1,228.8 L607.5,251.3 L624.0,255.0" fill="none" stroke="#3d5a80" stroke-width="2"/>
+<line x1="221" x2="239" y1="32" y2="32" stroke="#3d5a80" stroke-width="2"/><text x="243" y="36" fill="#333">wire (bytes_sent)</text>
+<path d="M64.0,258.0 L80.5,249.8 L96.9,259.0 L113.4,257.5 L129.9,259.6 L146.3,259.7 L162.8,259.7 L179.2,259.2 L195.7,259.8 L212.2,258.8 L228.7,259.5 L245.1,259.5 L261.6,259.5 L278.1,258.4 L294.6,257.8 L311.0,258.9 L327.5,259.4 L344.0,259.0 L360.5,258.0 L376.9,258.5 L393.4,259.0 L409.9,257.3 L426.3,259.6 L442.8,258.1 L459.2,258.5 L475.7,258.7 L492.2,258.3 L508.7,257.9 L525.1,258.6 L541.6,259.6 L558.1,259.7 L574.6,259.4 L591.1,258.5 L607.5,259.2 L624.0,260.0" fill="none" stroke="#d23c3c" stroke-width="2"/>
+<line x1="370" x2="388" y1="32" y2="32" stroke="#d23c3c" stroke-width="2"/><text x="392" y="36" fill="#333">retransmitted</text>
+<path d="M64.0,193.0 L80.5,99.5 L96.9,236.8 L113.4,227.6 L129.9,253.6 L146.3,251.5 L162.8,250.7 L179.2,251.5 L195.7,254.9 L212.2,245.9 L228.7,255.5 L245.1,252.2 L261.6,252.3 L278.1,218.3 L294.6,221.8 L311.0,248.3 L327.5,254.2 L344.0,242.8 L360.5,224.4 L376.9,227.5 L393.4,246.5 L409.9,223.7 L426.3,256.2 L442.8,222.2 L459.2,229.3 L475.7,242.3 L492.2,208.7 L508.7,214.7 L525.1,257.4 L541.6,246.6 L558.1,254.9 L574.6,248.7 L591.1,232.3 L607.5,246.6 L624.0,259.8" fill="none" stroke="#7d868f" stroke-width="2" stroke-dasharray="5,4"/>
+<line x1="491" x2="509" y1="32" y2="32" stroke="#7d868f" stroke-width="2" stroke-dasharray="5,4"/><text x="513" y="36" fill="#333">NIC tx</text>
+</svg><svg viewBox="0 0 640 300" width="640" height="300" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="12">
+<text x="64" y="16" font-weight="600">UDP: what the sender sees vs what arrives</text>
+<line x1="64" x2="624" y1="260.0" y2="260.0" stroke="#ddd"/>
+<text x="58" y="264.0" text-anchor="end" fill="#555">88.1</text>
+<line x1="64" x2="624" y1="202.0" y2="202.0" stroke="#ddd"/>
+<text x="58" y="206.0" text-anchor="end" fill="#555">91.3</text>
+<line x1="64" x2="624" y1="144.0" y2="144.0" stroke="#ddd"/>
+<text x="58" y="148.0" text-anchor="end" fill="#555">94.5</text>
+<line x1="64" x2="624" y1="86.0" y2="86.0" stroke="#ddd"/>
+<text x="58" y="90.0" text-anchor="end" fill="#555">97.8</text>
+<line x1="64" x2="624" y1="28.0" y2="28.0" stroke="#ddd"/>
+<text x="58" y="32.0" text-anchor="end" fill="#555">101</text>
+<text x="64.0" y="276" text-anchor="middle" fill="#555">0</text>
+<text x="176.0" y="276" text-anchor="middle" fill="#555">2</text>
+<text x="288.0" y="276" text-anchor="middle" fill="#555">4</text>
+<text x="400.0" y="276" text-anchor="middle" fill="#555">6</text>
+<text x="512.0" y="276" text-anchor="middle" fill="#555">8</text>
+<text x="624.0" y="276" text-anchor="middle" fill="#555">10</text>
+<text x="344.0" y="294" text-anchor="middle" fill="#333">netem loss %</text>
+<text x="14" y="144.0" text-anchor="middle" fill="#333" transform="rotate(-90 14 144.0)">% of bytes delivered</text>
+<path d="M64.0,46.0 L120.0,46.0 L176.0,46.0 L344.0,46.0 L624.0,46.0" fill="none" stroke="#b5367a" stroke-width="2" stroke-dasharray="5,4"/>
+<circle cx="64.0" cy="46.0" r="3" fill="#b5367a"/>
+<circle cx="120.0" cy="46.0" r="3" fill="#b5367a"/>
+<circle cx="176.0" cy="46.0" r="3" fill="#b5367a"/>
+<circle cx="344.0" cy="46.0" r="3" fill="#b5367a"/>
+<circle cx="624.0" cy="46.0" r="3" fill="#b5367a"/>
+<line x1="72" x2="90" y1="32" y2="32" stroke="#b5367a" stroke-width="2" stroke-dasharray="5,4"/><text x="94" y="36" fill="#333">sender-side eBPF view</text>
+<path d="M64.0,46.0 L120.0,62.2 L176.0,78.2 L344.0,134.8 L624.0,224.1" fill="none" stroke="#1f8a70" stroke-width="2"/>
+<circle cx="64.0" cy="46.0" r="3" fill="#1f8a70"/>
+<circle cx="120.0" cy="62.2" r="3" fill="#1f8a70"/>
+<circle cx="176.0" cy="78.2" r="3" fill="#1f8a70"/>
+<circle cx="344.0" cy="134.8" r="3" fill="#1f8a70"/>
+<circle cx="624.0" cy="224.1" r="3" fill="#1f8a70"/>
+<line x1="249" x2="267" y1="32" y2="32" stroke="#1f8a70" stroke-width="2"/><text x="271" y="36" fill="#333">delivered (receiver truth)</text>
+</svg>

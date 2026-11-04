@@ -1,0 +1,26 @@
+{
+  "children": {
+    "1530": {
+      "truth": 3145728,
+      "tracker": 3145728
+    },
+    "1529": {
+      "truth": 3145728,
+      "tracker": 3145728
+    },
+    "1531": {
+      "truth": 3145728,
+      "tracker": 3145728
+    },
+    "1528": {
+      "truth": 3145728,
+      "tracker": 3145728
+    }
+  },
+  "parent_truth": 1048576,
+  "parent_tracker": 1048576,
+  "summary": "parent + 4 forked children: 4/4 children exact, parent 1048576/1048576",
+  "group": "correctness",
+  "name": "fork_separate_pids",
+  "pass": true
+}

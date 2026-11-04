@@ -1,0 +1,53 @@
+{
+  "procs": 50,
+  "bytes": 1048576,
+  "rounds": [
+    {
+      "round": 1,
+      "worker_errors": [],
+      "exact_early": 50,
+      "exact_late": 50,
+      "exact_cumulative": 50,
+      "processes_ok": 50,
+      "mismatches": []
+    },
+    {
+      "round": 2,
+      "worker_errors": [],
+      "exact_early": 50,
+      "exact_late": 50,
+      "exact_cumulative": 50,
+      "processes_ok": 50,
+      "mismatches": []
+    },
+    {
+      "round": 3,
+      "worker_errors": [],
+      "exact_early": 50,
+      "exact_late": 50,
+      "exact_cumulative": 50,
+      "processes_ok": 50,
+      "mismatches": []
+    },
+    {
+      "round": 4,
+      "worker_errors": [],
+      "exact_early": 50,
+      "exact_late": 50,
+      "exact_cumulative": 50,
+      "processes_ok": 50,
+      "mismatches": []
+    },
+    {
+      "round": 5,
+      "worker_errors": [],
+      "exact_early": 50,
+      "exact_late": 50,
+      "exact_cumulative": 50,
+      "processes_ok": 50,
+      "mismatches": []
+    }
+  ],
+  "kprobe_misses": 0,
+  "perf_lost": 0
+}

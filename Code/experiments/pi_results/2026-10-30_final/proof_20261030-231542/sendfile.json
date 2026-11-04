@@ -1,0 +1,8 @@
+{
+  "truth_sent": 20971520,
+  "tracker_tx": 20971520,
+  "summary": "sendfile(): tracker 20971520 B, app 20971520 B",
+  "group": "correctness",
+  "name": "sendfile",
+  "pass": true
+}

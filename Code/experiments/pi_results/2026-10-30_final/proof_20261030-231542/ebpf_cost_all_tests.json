@@ -1,0 +1,70 @@
+{
+  "per_program": {
+    "tracepoint__sock__inet_sock_set_state": {
+      "runs": 9382,
+      "avg_ns": 1331.5
+    },
+    "tracepoint__tcp__tcp_retransmit_skb": {
+      "runs": 341,
+      "avg_ns": 8030.9
+    },
+    "on_tcp_send_enter": {
+      "runs": 1368534,
+      "avg_ns": 144.6
+    },
+    "on_tcp_send_return": {
+      "runs": 1368534,
+      "avg_ns": 608.3
+    },
+    "on_tcp_cleanup_rbuf": {
+      "runs": 1837505,
+      "avg_ns": 455.4
+    },
+    "on_tcp_rcv_established": {
+      "runs": 2739487,
+      "avg_ns": 99.9
+    },
+    "on_udp_send_enter": {
+      "runs": 2300,
+      "avg_ns": 197.6
+    },
+    "on_udp_send_return": {
+      "runs": 2300,
+      "avg_ns": 458.7
+    },
+    "on_udpv6_send_enter": {
+      "runs": 1000,
+      "avg_ns": 247.6
+    },
+    "on_udpv6_send_return": {
+      "runs": 1000,
+      "avg_ns": 629.8
+    },
+    "on_skb_consume_udp": {
+      "runs": 2800,
+      "avg_ns": 534.5
+    },
+    "on_udp_enqueue_enter": {
+      "runs": 2800,
+      "avg_ns": 46.9
+    },
+    "on_udp_enqueue_return": {
+      "runs": 2800,
+      "avg_ns": 38.8
+    }
+  },
+  "map_memlock_bytes": {
+    "flows": 3670976,
+    "tcp_snaps": 3277760,
+    "sk_owner": 2491328,
+    "rx_seq": 1311680,
+    "udp_drops": 328640,
+    "tcp_send_args": 427328,
+    "udp_send_args": 427328
+  },
+  "kprobe_misses": 0,
+  "perf_lost": 0,
+  "summary": "7,338,783 eBPF runs, avg 294 ns; maps 11.4 MB; kretprobe misses 0, perf lost 0",
+  "group": "performance",
+  "name": "ebpf_cost_all_tests"
+}

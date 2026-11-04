@@ -1,0 +1,13 @@
+{
+  "map_capacity": 256,
+  "flows_generated": 600,
+  "tool_alive": true,
+  "truth": 5880000,
+  "tracker": 35200,
+  "captured_pct": 0.5986,
+  "captured_pct_default_16384": 100.0,
+  "summary": "600 UDP flows: default map 100.0 % captured; forced 256-entry map: tool alive=True, 0.6 % captured (LRU evicts, memory stays bounded, no crash)",
+  "group": "reliability",
+  "name": "map_overflow_lru",
+  "pass": true
+}

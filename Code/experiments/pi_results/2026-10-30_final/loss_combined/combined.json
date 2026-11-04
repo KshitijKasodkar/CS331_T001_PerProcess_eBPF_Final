@@ -1,0 +1,1145 @@
+{
+  "runs": [
+    {
+      "dir": "20261030-235212",
+      "host": "kasodkar",
+      "kernel": "6.18.50+rpt-rpi-2712",
+      "platform": "Raspberry Pi 5 Model B Rev 1.1",
+      "peer": "10.58.105.150",
+      "iface": "wlan0",
+      "direction": "both",
+      "delay_ms": 0.0,
+      "started": "2026-10-30 23:52:12"
+    },
+    {
+      "dir": "20261030-235752",
+      "host": "kasodkar",
+      "kernel": "6.18.50+rpt-rpi-2712",
+      "platform": "Raspberry Pi 5 Model B Rev 1.1",
+      "peer": "10.58.105.150",
+      "iface": "wlan0",
+      "direction": "both",
+      "delay_ms": 0.0,
+      "started": "2026-10-30 23:57:52"
+    },
+    {
+      "dir": "20261031-000234",
+      "host": "kasodkar",
+      "kernel": "6.18.50+rpt-rpi-2712",
+      "platform": "Raspberry Pi 5 Model B Rev 1.1",
+      "peer": "10.58.105.150",
+      "iface": "wlan0",
+      "direction": "both",
+      "delay_ms": 0.0,
+      "started": "2026-10-31 00:02:34"
+    }
+  ],
+  "groups": [
+    {
+      "mode": "tcp-down",
+      "loss_pct": 0.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "goodput_mbps": {
+        "mean": 139.029,
+        "sd": 41.641,
+        "min": 110.606,
+        "max": 186.827,
+        "n": 3
+      },
+      "srtt_ms": {
+        "mean": 10.15,
+        "sd": 5.451,
+        "min": 6.8,
+        "max": 16.44,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 1.333,
+        "sd": 1.155,
+        "min": 0.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 579.933,
+        "sd": 375.905,
+        "min": 161.2,
+        "max": 888.3,
+        "n": 3
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      }
+    },
+    {
+      "mode": "tcp-down",
+      "loss_pct": 1.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "goodput_mbps": {
+        "mean": 15.555,
+        "sd": 0.521,
+        "min": 15.161,
+        "max": 16.146,
+        "n": 3
+      },
+      "srtt_ms": {
+        "mean": 9.49,
+        "sd": 3.552,
+        "min": 6.36,
+        "max": 13.35,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 437.433,
+        "sd": 106.419,
+        "min": 359.6,
+        "max": 558.7,
+        "n": 3
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      }
+    },
+    {
+      "mode": "tcp-down",
+      "loss_pct": 2.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "goodput_mbps": {
+        "mean": 13.421,
+        "sd": 0.894,
+        "min": 12.801,
+        "max": 14.445,
+        "n": 3
+      },
+      "srtt_ms": {
+        "mean": 5.483,
+        "sd": 2.182,
+        "min": 4.13,
+        "max": 8.0,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 480.3,
+        "sd": 47.093,
+        "min": 438.1,
+        "max": 531.1,
+        "n": 3
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      }
+    },
+    {
+      "mode": "tcp-down",
+      "loss_pct": 5.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "goodput_mbps": {
+        "mean": 9.577,
+        "sd": 1.516,
+        "min": 8.695,
+        "max": 11.327,
+        "n": 3
+      },
+      "srtt_ms": {
+        "mean": 7.917,
+        "sd": 0.26,
+        "min": 7.69,
+        "max": 8.2,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 419.967,
+        "sd": 21.772,
+        "min": 395.1,
+        "max": 435.6,
+        "n": 3
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      }
+    },
+    {
+      "mode": "tcp-down",
+      "loss_pct": 10.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "goodput_mbps": {
+        "mean": 6.279,
+        "sd": 0.21,
+        "min": 6.041,
+        "max": 6.439,
+        "n": 3
+      },
+      "srtt_ms": {
+        "mean": 7.987,
+        "sd": 1.346,
+        "min": 6.67,
+        "max": 9.36,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 410.7,
+        "sd": 29.706,
+        "min": 376.4,
+        "max": 428.1,
+        "n": 3
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      }
+    },
+    {
+      "mode": "tcp-up",
+      "loss_pct": 0.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "wire_overhead_pct": {
+        "mean": 0.886,
+        "sd": 1.535,
+        "min": 0.0,
+        "max": 2.658,
+        "n": 3
+      },
+      "retrans_pct": {
+        "mean": 0.863,
+        "sd": 1.495,
+        "min": 0.0,
+        "max": 2.589,
+        "n": 3
+      },
+      "ebpf_retrans_segs": {
+        "mean": 128.333,
+        "sd": 222.28,
+        "min": 0,
+        "max": 385,
+        "n": 3
+      },
+      "goodput_mbps": {
+        "mean": 177.964,
+        "sd": 14.787,
+        "min": 160.96,
+        "max": 187.806,
+        "n": 3
+      },
+      "interval_rate_dev_mean_pct": {
+        "mean": 28.683,
+        "sd": 10.892,
+        "min": 21.45,
+        "max": 41.21,
+        "n": 3
+      },
+      "wire_lag_s": {
+        "mean": 0.167,
+        "sd": 0.289,
+        "min": 0.0,
+        "max": 0.5,
+        "n": 3
+      },
+      "srtt_ms": {
+        "mean": 25.647,
+        "sd": 5.827,
+        "min": 19.66,
+        "max": 31.3,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 1.997,
+        "sd": 0.006,
+        "min": 1.99,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 233.533,
+        "sd": 52.733,
+        "min": 194.4,
+        "max": 293.5,
+        "n": 3
+      },
+      "bpf_cpu_pct": {
+        "mean": 0.047,
+        "sd": 0.005,
+        "min": 0.043,
+        "max": 0.053,
+        "n": 3
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      }
+    },
+    {
+      "mode": "tcp-up",
+      "loss_pct": 1.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "wire_overhead_pct": {
+        "mean": 1.236,
+        "sd": 0.76,
+        "min": 0.621,
+        "max": 2.085,
+        "n": 3
+      },
+      "retrans_pct": {
+        "mean": 1.217,
+        "sd": 0.739,
+        "min": 0.618,
+        "max": 2.043,
+        "n": 3
+      },
+      "ebpf_retrans_segs": {
+        "mean": 179.333,
+        "sd": 109.861,
+        "min": 90,
+        "max": 302,
+        "n": 3
+      },
+      "goodput_mbps": {
+        "mean": 156.068,
+        "sd": 28.757,
+        "min": 123.748,
+        "max": 178.824,
+        "n": 3
+      },
+      "interval_rate_dev_mean_pct": {
+        "mean": 40.577,
+        "sd": 6.447,
+        "min": 35.19,
+        "max": 47.72,
+        "n": 3
+      },
+      "wire_lag_s": {
+        "mean": 0.167,
+        "sd": 0.289,
+        "min": 0.0,
+        "max": 0.5,
+        "n": 3
+      },
+      "srtt_ms": {
+        "mean": 19.26,
+        "sd": 8.376,
+        "min": 11.25,
+        "max": 27.96,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 417.933,
+        "sd": 122.903,
+        "min": 295.5,
+        "max": 541.3,
+        "n": 3
+      },
+      "bpf_cpu_pct": {
+        "mean": 0.056,
+        "sd": 0.009,
+        "min": 0.046,
+        "max": 0.063,
+        "n": 3
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      }
+    },
+    {
+      "mode": "tcp-up",
+      "loss_pct": 2.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "wire_overhead_pct": {
+        "mean": 1.724,
+        "sd": 0.318,
+        "min": 1.415,
+        "max": 2.051,
+        "n": 3
+      },
+      "retrans_pct": {
+        "mean": 1.694,
+        "sd": 0.307,
+        "min": 1.396,
+        "max": 2.009,
+        "n": 3
+      },
+      "ebpf_retrans_segs": {
+        "mean": 249.667,
+        "sd": 46.058,
+        "min": 205,
+        "max": 297,
+        "n": 3
+      },
+      "goodput_mbps": {
+        "mean": 132.101,
+        "sd": 36.326,
+        "min": 91.79,
+        "max": 162.297,
+        "n": 3
+      },
+      "interval_rate_dev_mean_pct": {
+        "mean": 40.87,
+        "sd": 23.641,
+        "min": 19.63,
+        "max": 66.34,
+        "n": 3
+      },
+      "wire_lag_s": {
+        "mean": 0.333,
+        "sd": 0.289,
+        "min": 0.0,
+        "max": 0.5,
+        "n": 3
+      },
+      "srtt_ms": {
+        "mean": 10.87,
+        "sd": 2.582,
+        "min": 7.93,
+        "max": 12.77,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 366.1,
+        "sd": 90.353,
+        "min": 297.6,
+        "max": 468.5,
+        "n": 3
+      },
+      "bpf_cpu_pct": {
+        "mean": 0.047,
+        "sd": 0.006,
+        "min": 0.043,
+        "max": 0.054,
+        "n": 3
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      }
+    },
+    {
+      "mode": "tcp-up",
+      "loss_pct": 5.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "wire_overhead_pct": {
+        "mean": 6.297,
+        "sd": 0.451,
+        "min": 5.986,
+        "max": 6.814,
+        "n": 3
+      },
+      "retrans_pct": {
+        "mean": 5.922,
+        "sd": 0.398,
+        "min": 5.648,
+        "max": 6.379,
+        "n": 3
+      },
+      "ebpf_retrans_segs": {
+        "mean": 912,
+        "sd": 65.383,
+        "min": 867,
+        "max": 987,
+        "n": 3
+      },
+      "goodput_mbps": {
+        "mean": 12.477,
+        "sd": 3.2,
+        "min": 10.04,
+        "max": 16.101,
+        "n": 3
+      },
+      "interval_rate_dev_mean_pct": {
+        "mean": 29.753,
+        "sd": 5.252,
+        "min": 24.98,
+        "max": 35.38,
+        "n": 3
+      },
+      "wire_lag_s": {
+        "mean": 1.5,
+        "sd": 0.5,
+        "min": 1.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "srtt_ms": {
+        "mean": 8.35,
+        "sd": 1.039,
+        "min": 7.26,
+        "max": 9.33,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 813.0,
+        "sd": 215.072,
+        "min": 618.2,
+        "max": 1043.8,
+        "n": 3
+      },
+      "bpf_cpu_pct": {
+        "mean": 0.042,
+        "sd": 0.017,
+        "min": 0.026,
+        "max": 0.059,
+        "n": 3
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 3
+      }
+    },
+    {
+      "mode": "tcp-up",
+      "loss_pct": 10.0,
+      "delay_ms": 0.0,
+      "runs": 2,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 2
+      },
+      "wire_overhead_pct": {
+        "mean": 12.073,
+        "sd": 0.054,
+        "min": 12.035,
+        "max": 12.111,
+        "n": 2
+      },
+      "retrans_pct": {
+        "mean": 10.772,
+        "sd": 0.042,
+        "min": 10.742,
+        "max": 10.802,
+        "n": 2
+      },
+      "ebpf_retrans_segs": {
+        "mean": 1749,
+        "sd": 8.485,
+        "min": 1743,
+        "max": 1755,
+        "n": 2
+      },
+      "goodput_mbps": {
+        "mean": 1.486,
+        "sd": 0.461,
+        "min": 1.16,
+        "max": 1.812,
+        "n": 2
+      },
+      "interval_rate_dev_mean_pct": {
+        "mean": 89.655,
+        "sd": 1.888,
+        "min": 88.32,
+        "max": 90.99,
+        "n": 2
+      },
+      "wire_lag_s": {
+        "mean": 17.78,
+        "sd": 12.403,
+        "min": 9.01,
+        "max": 26.55,
+        "n": 2
+      },
+      "srtt_ms": {
+        "mean": 29.395,
+        "sd": 8.86,
+        "min": 23.13,
+        "max": 35.66,
+        "n": 2
+      },
+      "tracker_cpu_pct": {
+        "mean": 3.995,
+        "sd": 0.007,
+        "min": 3.99,
+        "max": 4.0,
+        "n": 2
+      },
+      "bpf_avg_ns": {
+        "mean": 1151.2,
+        "sd": 5.374,
+        "min": 1147.4,
+        "max": 1155.0,
+        "n": 2
+      },
+      "bpf_cpu_pct": {
+        "mean": 0.053,
+        "sd": 0.004,
+        "min": 0.05,
+        "max": 0.056,
+        "n": 2
+      },
+      "kprobe_misses": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 2
+      }
+    },
+    {
+      "mode": "udp-down",
+      "loss_pct": 0.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 0.218,
+        "sd": 0.226,
+        "min": 0.0,
+        "max": 0.451,
+        "n": 3
+      },
+      "ebpf_measured_loss_pct": {
+        "mean": 0.218,
+        "sd": 0.226,
+        "min": 0.0,
+        "max": 0.451,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 644.3,
+        "sd": 227.129,
+        "min": 453.9,
+        "max": 895.7,
+        "n": 3
+      }
+    },
+    {
+      "mode": "udp-down",
+      "loss_pct": 1.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 1.04,
+        "sd": 0.047,
+        "min": 1.008,
+        "max": 1.094,
+        "n": 3
+      },
+      "ebpf_measured_loss_pct": {
+        "mean": 1.04,
+        "sd": 0.047,
+        "min": 1.008,
+        "max": 1.094,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 472.533,
+        "sd": 28.922,
+        "min": 439.5,
+        "max": 493.3,
+        "n": 3
+      }
+    },
+    {
+      "mode": "udp-down",
+      "loss_pct": 2.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 2.067,
+        "sd": 0.077,
+        "min": 1.978,
+        "max": 2.112,
+        "n": 3
+      },
+      "ebpf_measured_loss_pct": {
+        "mean": 2.067,
+        "sd": 0.077,
+        "min": 1.978,
+        "max": 2.112,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 610.733,
+        "sd": 144.851,
+        "min": 474.8,
+        "max": 763.1,
+        "n": 3
+      }
+    },
+    {
+      "mode": "udp-down",
+      "loss_pct": 5.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 5.104,
+        "sd": 0.238,
+        "min": 4.935,
+        "max": 5.376,
+        "n": 3
+      },
+      "ebpf_measured_loss_pct": {
+        "mean": 5.104,
+        "sd": 0.238,
+        "min": 4.935,
+        "max": 5.376,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 625.533,
+        "sd": 105.938,
+        "min": 503.3,
+        "max": 690.8,
+        "n": 3
+      }
+    },
+    {
+      "mode": "udp-down",
+      "loss_pct": 10.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 10.148,
+        "sd": 0.169,
+        "min": 10.022,
+        "max": 10.34,
+        "n": 3
+      },
+      "ebpf_measured_loss_pct": {
+        "mean": 10.148,
+        "sd": 0.169,
+        "min": 10.022,
+        "max": 10.34,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.663,
+        "sd": 1.149,
+        "min": 2.0,
+        "max": 3.99,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 552.033,
+        "sd": 46.02,
+        "min": 498.9,
+        "max": 579.3,
+        "n": 3
+      }
+    },
+    {
+      "mode": "udp-rcvbuf",
+      "loss_pct": 0,
+      "delay_ms": 0.0,
+      "runs": 1
+    },
+    {
+      "mode": "udp-up",
+      "loss_pct": 0.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 0.051,
+        "sd": 0.089,
+        "min": 0.0,
+        "max": 0.154,
+        "n": 3
+      },
+      "sender_view_delivered_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 1.997,
+        "sd": 0.006,
+        "min": 1.99,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 527.933,
+        "sd": 57.157,
+        "min": 486.3,
+        "max": 593.1,
+        "n": 3
+      }
+    },
+    {
+      "mode": "udp-up",
+      "loss_pct": 1.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 0.989,
+        "sd": 0.118,
+        "min": 0.902,
+        "max": 1.123,
+        "n": 3
+      },
+      "sender_view_delivered_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 492.167,
+        "sd": 99.977,
+        "min": 404.6,
+        "max": 601.1,
+        "n": 3
+      }
+    },
+    {
+      "mode": "udp-up",
+      "loss_pct": 2.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 2.064,
+        "sd": 0.425,
+        "min": 1.795,
+        "max": 2.554,
+        "n": 3
+      },
+      "sender_view_delivered_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 496.033,
+        "sd": 165.933,
+        "min": 397.0,
+        "max": 687.6,
+        "n": 3
+      }
+    },
+    {
+      "mode": "udp-up",
+      "loss_pct": 5.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 5.229,
+        "sd": 0.354,
+        "min": 4.944,
+        "max": 5.625,
+        "n": 3
+      },
+      "sender_view_delivered_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 588.0,
+        "sd": 105.769,
+        "min": 480.1,
+        "max": 691.5,
+        "n": 3
+      }
+    },
+    {
+      "mode": "udp-up",
+      "loss_pct": 10.0,
+      "delay_ms": 0.0,
+      "runs": 3,
+      "app_accuracy_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "truth_loss_pct": {
+        "mean": 9.692,
+        "sd": 0.38,
+        "min": 9.254,
+        "max": 9.916,
+        "n": 3
+      },
+      "sender_view_delivered_pct": {
+        "mean": 100.0,
+        "sd": 0.0,
+        "min": 100.0,
+        "max": 100.0,
+        "n": 3
+      },
+      "tracker_cpu_pct": {
+        "mean": 2.0,
+        "sd": 0.0,
+        "min": 2.0,
+        "max": 2.0,
+        "n": 3
+      },
+      "bpf_avg_ns": {
+        "mean": 720.367,
+        "sd": 272.649,
+        "min": 407.3,
+        "max": 905.7,
+        "n": 3
+      }
+    }
+  ]
+}

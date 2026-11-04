@@ -1,0 +1,8 @@
+{
+  "processes": 50,
+  "exact": 49,
+  "summary": "50 processes at once: 49/50 attributed exactly",
+  "group": "scalability",
+  "name": "concurrent_processes",
+  "pass": false
+}

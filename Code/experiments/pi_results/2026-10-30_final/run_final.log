@@ -1,0 +1,199 @@
+== run_final 20261030-2315  peer=10.58.105.150  quick=no  host=kasodkar  kernel=6.18.50+rpt-rpi-2712
+
+== checking the peer (10.58.105.150:5300) ==
+peer OK
+bwtrack proof suite -> experiments/results/final_20261030-2315/proof_20261030-231542
+{'host': 'kasodkar', 'kernel': '6.18.50+rpt-rpi-2712', 'machine': 'aarch64', 'platform': 'Raspberry Pi 5 Model B Rev 1.1', 'python': '3.13.5', 'cpus': 4, 'time': '2026-10-30 23:15:42', 'mem_gb': 7.9, 'bcc': '0.31.0', 'cpu_model': 'Raspberry Pi 5 Model B Rev 1.1'}
+
+== performance (with vs without tracker) ==
+  throughput_overhead: TCP loopback 54.652 -> 44.801 Gbit/s (-18.0 %); 64 B UDP 498.2 -> 248.9 kpps (-50.0 %); tool CPU 0.33 % (TCP load), 0.20 % idle; RSS 220.5 MB; accuracy at full speed 100.000 %, 100.000 %, 100.000 %
+
+loading tracker ...
+   Compiling eBPF program against the running kernel's headers (BCC/clang)...
+   Compiled in 5.0s. Attaching probes...
+   Attached 13 probes, skipped 2 optional
+
+== correctness (issues fixed) ==
+  PASS partial_sends: tracker 15535328 B = accepted 15535328 B; counting the requested size (old method) would report 32374784 B (+108 %)
+  PASS recv_waitall: receiver with MSG_WAITALL: tracker 20971520 B, app 20971520 B
+  PASS sendfile: sendfile(): tracker 20971520 B, app 20971520 B
+  PASS udp_unconnected_multi_dest: one sendto() socket -> 3 IPs: 127.0.0.2 300000/300000, 127.0.0.3 600000/600000, 127.0.0.4 900000/900000
+  PASS ipv6: TCP ::1 10485760/10485760, UDP ::1 500000/500000, UDP v4-mapped 500000/500000 (not double counted)
+  PASS threads_one_pid: 8 threads -> one PID: 41943040/41943040 B, 8 sockets
+  PASS fork_separate_pids: parent + 4 forked children: 4/4 children exact, parent 1048576/1048576
+  PASS short_connections_reuse: 500 short connections: app 10000000/10000000 B, wire 10000000 B (100.00 %)
+  PASS loopback_detection: 127.x flagged: True; own IP 10.58.105.107 flagged: True
+
+== scalability ==
+       1 connections: 1/1 exact, collector CPU 4.0 %
+      10 connections: 10/10 exact, collector CPU 6.81 %
+      50 connections: 50/50 exact, collector CPU 5.96 %
+     100 connections: 100/100 exact, collector CPU 7.22 %
+     200 connections: 200/200 exact, collector CPU 12.43 %
+  PASS concurrent_connections: 1 conns: 1/1 exact; 10 conns: 10/10 exact; 50 conns: 50/50 exact; 100 conns: 100/100 exact; 200 conns: 200/200 exact
+  FAIL concurrent_processes: 50 processes at once: 49/50 attributed exactly
+  PASS event_rate: 170,388 send() calls/s of 64 B: tracker 87238848/87238848 B; send probes on_tcp_send_enter 143.1 ns, on_tcp_send_return 603.6 ns
+  ebpf_cost_all_tests: 7,338,783 eBPF runs, avg 294 ns; maps 11.4 MB; kretprobe misses 0, perf lost 0
+
+== reliability ==
+  PASS map_overflow_lru: 600 UDP flows: default map 100.0 % captured; forced 256-entry map: tool alive=True, 0.6 % captured (LRU evicts, memory stays bounded, no crash)
+  PASS start_mid_transfer: tracker started 5 s into a 2 MB/s transfer: max reported 2.03 MB/s (no spike from earlier bytes)
+  PASS soak: 30.0 min, 2511 short-lived processes: recorder alive=True, CPU 1.90 %, RSS 220.3 -> 223.3 MB, 2511/2511 processes exact in SQLite history
+
+Done in 36.4 min. Results: experiments/results/final_20261030-2315/proof_20261030-231542/summary.md
+
+== loss experiment run 1/3 ==
+Loading eBPF tracker... (iface wlan0, peer 10.58.105.150)
+   Compiling eBPF program against the running kernel's headers (BCC/clang)...
+   Compiled in 5.0s. Attaching probes...
+   Attached 13 probes, skipped 2 optional
+
+--- netem loss 0.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +2.658%  retx 2.589% (385 segs)  goodput 160.96 Mbit/s  rtt 19.66 ms  wire lag 0.5 s
+  tcp-down app accuracy 100.0%  goodput 110.606 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 0.154%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 0.202%  eBPF-measured loss 0.202%
+
+--- netem loss 1.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +2.085%  retx 2.043% (302 segs)  goodput 123.748 Mbit/s  rtt 11.25 ms  wire lag 0.5 s
+  tcp-down app accuracy 100.0%  goodput 15.161 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 0.941%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 1.094%  eBPF-measured loss 1.094%
+
+--- netem loss 2.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +2.051%  retx 2.009% (297 segs)  goodput 91.79 Mbit/s  rtt 7.93 ms  wire lag 0.5 s
+  tcp-down app accuracy 100.0%  goodput 12.801 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 2.554%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 2.112%  eBPF-measured loss 2.112%
+
+--- netem loss 5.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +6.814%  retx 6.379% (987 segs)  goodput 11.29 Mbit/s  rtt 9.33 ms  wire lag 2.0 s
+  tcp-down app accuracy 100.0%  goodput 8.695 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 5.625%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 5.376%  eBPF-measured loss 5.376%
+
+--- netem loss 10.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +12.035%  retx 10.742% (1743 segs)  goodput 1.16 Mbit/s  rtt 35.66 ms  wire lag 26.55 s
+  tcp-down app accuracy 100.0%  goodput 6.041 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 9.907%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 10.34%  eBPF-measured loss 10.34%
+
+--- UDP receive-buffer overflow test ---
+  rcvbuf   kernel drops 2985  eBPF drops 2985  rx accuracy 100.0%
+
+Wrote experiments/results/final_20261030-2315/loss_run1/20261030-235212/report.md, report.html, results.csv, series.csv
+
+== loss experiment run 2/3 ==
+Loading eBPF tracker... (iface wlan0, peer 10.58.105.150)
+   Compiling eBPF program against the running kernel's headers (BCC/clang)...
+   Compiled in 5.0s. Attaching probes...
+   Attached 13 probes, skipped 2 optional
+
+--- netem loss 0.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +0.000%  retx 0.0% (0 segs)  goodput 185.127 Mbit/s  rtt 31.3 ms  wire lag 0.0 s
+  tcp-down app accuracy 100.0%  goodput 119.653 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 0.0%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 0.0%  eBPF-measured loss 0.0%
+
+--- netem loss 1.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +0.621%  retx 0.618% (90 segs)  goodput 178.824 Mbit/s  rtt 27.96 ms  wire lag 0.0 s
+  tcp-down app accuracy 100.0%  goodput 16.146 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 1.123%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 1.018%  eBPF-measured loss 1.018%
+
+--- netem loss 2.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +1.705%  retx 1.677% (247 segs)  goodput 142.216 Mbit/s  rtt 11.91 ms  wire lag 0.5 s
+  tcp-down app accuracy 100.0%  goodput 13.016 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 1.843%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 2.112%  eBPF-measured loss 2.112%
+
+--- netem loss 5.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +6.090%  retx 5.74% (882 segs)  goodput 16.101 Mbit/s  rtt 7.26 ms  wire lag 1.5 s
+  tcp-down app accuracy 100.0%  goodput 8.708 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 5.117%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 4.935%  eBPF-measured loss 4.935%
+
+--- netem loss 10.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +12.111%  retx 10.802% (1755 segs)  goodput 1.812 Mbit/s  rtt 23.13 ms  wire lag 9.01 s
+  tcp-down app accuracy 100.0%  goodput 6.439 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 9.254%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 10.022%  eBPF-measured loss 10.022%
+
+Wrote experiments/results/final_20261030-2315/loss_run2/20261030-235752/report.md, report.html, results.csv, series.csv
+
+== loss experiment run 3/3 ==
+Loading eBPF tracker... (iface wlan0, peer 10.58.105.150)
+   Compiling eBPF program against the running kernel's headers (BCC/clang)...
+   Compiled in 5.0s. Attaching probes...
+   Attached 13 probes, skipped 2 optional
+
+--- netem loss 0.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +0.000%  retx 0.0% (0 segs)  goodput 187.806 Mbit/s  rtt 25.98 ms  wire lag 0.0 s
+  tcp-down app accuracy 100.0%  goodput 186.827 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 0.0%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 0.451%  eBPF-measured loss 0.451%
+
+--- netem loss 1.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +1.001%  retx 0.991% (146 segs)  goodput 165.633 Mbit/s  rtt 18.57 ms  wire lag 0.0 s
+  tcp-down app accuracy 100.0%  goodput 15.359 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 0.902%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 1.008%  eBPF-measured loss 1.008%
+
+--- netem loss 2.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +1.415%  retx 1.396% (205 segs)  goodput 162.297 Mbit/s  rtt 12.77 ms  wire lag 0.0 s
+  tcp-down app accuracy 100.0%  goodput 14.445 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 1.795%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 1.978%  eBPF-measured loss 1.978%
+
+--- netem loss 5.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +5.986%  retx 5.648% (867 segs)  goodput 10.04 Mbit/s  rtt 8.46 ms  wire lag 1.0 s
+  tcp-down app accuracy 100.0%  goodput 11.327 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 4.944%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 5.001%  eBPF-measured loss 5.001%
+
+--- netem loss 10.0% delay 0.0 ms on wlan0 (both) ---
+  tcp-up: FAILED traffic generator failed: Traceback (most recent call last):
+  File "/home/kshitij/bwtracker/tools/trafficgen.py", line 310, in <module>
+    main()
+    ~~~~^^
+  File "/home/kshitij/bwtracker/tools/trafficgen.py", line 306, in main
+    print(json.dumps(client(a)), flush=True)
+                     ~~~~~~^^^
+  File "/home/kshitij/bwtracker/tools/trafficgen.py", line 230, in client
+    peer = recv_line(c)
+  File "/home/kshitij/bwtracker/tools/trafficgen.py", line 59, in recv_line
+    c = sock.recv(1)
+TimeoutError: timed out
+  tcp-down app accuracy 100.0%  goodput 6.358 Mbit/s
+  udp-up   sender accuracy 100.0%  true loss 9.916%  (sender-side eBPF cannot see it)
+  udp-down rx accuracy 100.0%  true loss 10.081%  eBPF-measured loss 10.081%
+
+Wrote experiments/results/final_20261030-2315/loss_run3/20261031-000234/report.md, report.html, results.csv, series.csv
+
+== loss experiment with 20 ms extra delay ==
+Loading eBPF tracker... (iface wlan0, peer 10.58.105.150)
+   Compiling eBPF program against the running kernel's headers (BCC/clang)...
+   Compiled in 5.1s. Attaching probes...
+   Attached 13 probes, skipped 2 optional
+
+--- netem loss 0.0% delay 20.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +0.000%  retx 0.0% (0 segs)  goodput 115.704 Mbit/s  rtt 70.57 ms  wire lag 0.5 s
+  tcp-down app accuracy 100.0%  goodput 130.939 Mbit/s
+
+--- netem loss 1.0% delay 20.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +1.049%  retx 1.039% (152 segs)  goodput 3.741 Mbit/s  rtt 50.26 ms  wire lag 0.5 s
+  tcp-down app accuracy 100.0%  goodput 3.077 Mbit/s
+
+--- netem loss 2.0% delay 20.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +2.196%  retx 2.148% (318 segs)  goodput 2.498 Mbit/s  rtt 51.19 ms  wire lag 1.0 s
+  tcp-down app accuracy 100.0%  goodput 2.45 Mbit/s
+
+--- netem loss 5.0% delay 20.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +6.185%  retx 5.825% (898 segs)  goodput 1.403 Mbit/s  rtt 56.95 ms  wire lag 15.53 s
+  tcp-down app accuracy 100.0%  goodput 1.998 Mbit/s
+
+--- netem loss 10.0% delay 20.0 ms on wlan0 (both) ---
+  tcp-up   app accuracy 100.0%  wire +12.760%  retx 11.316% (1849 segs)  goodput 0.461 Mbit/s  rtt 78.51 ms  wire lag 2.0 s
+  tcp-down app accuracy 100.0%  goodput 1.432 Mbit/s
+
+Wrote experiments/results/final_20261030-2315/delay20/20261031-000754/report.md, report.html, results.csv, series.csv

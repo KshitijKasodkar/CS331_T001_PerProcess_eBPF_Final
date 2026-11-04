@@ -1,0 +1,9 @@
+{
+  "truth": 41943040,
+  "tracker_tx": 41943040,
+  "max_sockets_in_row": 8,
+  "summary": "8 threads -> one PID: 41943040/41943040 B, 8 sockets",
+  "group": "correctness",
+  "name": "threads_one_pid",
+  "pass": true
+}
