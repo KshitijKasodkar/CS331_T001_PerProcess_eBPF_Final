@@ -6,11 +6,16 @@
 [![Kernels](https://img.shields.io/badge/kernels-5.15%20%7C%206.8%20%7C%206.18-lightgrey.svg)](#-testbed)
 [![Tests](https://img.shields.io/badge/unit%20tests-14%20passed-brightgreen.svg)](Code/tests/test_logic.py)
 [![No mock data](https://img.shields.io/badge/data-100%25%20live%20kernel-success.svg)](#-how-it-works)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+<p align="center"><img src="Code/docs/img/bwtrack-demo.gif" alt="bwtrack on a Raspberry Pi 5: web dashboard, terminal UI, loss experiment, results and proof suite" width="900"></p>
+<p align="center"><sub>Real screenshots from the Raspberry Pi 5 runs (30–31 Oct 2026). Full-size images are in <a href="#%EF%B8%8F-screenshots">Screenshots</a>.</sub></p>
 
 **bwtrack** shows, **live and from inside the Linux kernel**, how much network bandwidth **every process** is using: per process, per remote IP and port, for **TCP and UDP**, upload and download. For TCP it also shows what really went **on the wire**: retransmissions, RTT and congestion window. That lets you **see packet loss as it happens** and explain why real-time numbers at different layers never agree exactly.
 
 It runs on a **Raspberry Pi 5** (the main testbed), on Ubuntu, and on WSL2. It comes with a terminal dashboard, a web dashboard, SQLite history, a Prometheus endpoint and a reproducible **packet-loss experiment suite** (0–10 % loss) that checks every number against ground truth.
+
+> 💻 **No Raspberry Pi needed for live tracking:** bwtrack also runs on Ubuntu and on WSL2 (see [Quickstart](#-quickstart)). Only the packet-loss experiments need the Pi, because they use `tc netem`, which the WSL2 kernel does not include.
 
 > 🔁 **This is the final-evaluation version, rebuilt from scratch after the mid-semester review.** There is no mock mode: every number comes from real eBPF probes. See [What changed since the midsem](#-what-changed-since-the-midsem).
 
@@ -394,6 +399,7 @@ At 0 % loss the wire equals the app exactly when Wi-Fi itself loses nothing (+0.
 ```text
 CS331_T001_PerProcess_eBPF_Final/
 ├── README.md                     # This file
+├── LICENSE                       # MIT License
 ├── Report.pdf                    # Final project report (IEEE-style template)
 ├── PPT.pdf                       # ⭐ Final presentation (instructor's 5-slide format + proof slides)
 ├── AI_Used/                      # 🤖 Raw AI conversations (no summaries)
@@ -494,4 +500,4 @@ CS331_T001_PerProcess_eBPF_Final/
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.
+This project is licensed under the **MIT License**: see [`LICENSE`](LICENSE).
