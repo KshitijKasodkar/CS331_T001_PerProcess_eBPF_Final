@@ -500,4 +500,4 @@ CS331_T001_PerProcess_eBPF_Final/
 
 ## 📄 License
 
-This project is licensed under the **MIT License**: see [`LICENSE`](LICENSE).
+This project is licensed under the **MIT License**: see [`LICENSE`](https://opensource.org/licenses/MIT).
