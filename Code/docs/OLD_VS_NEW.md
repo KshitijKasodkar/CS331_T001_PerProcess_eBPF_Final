@@ -13,5 +13,5 @@
 | 9 | One perf event per `send()` call, Python callback per event | at high throughput the buffer overflows and lost events = lost bytes; heavy CPU | counters aggregated **in the kernel** (maps), read once per interval; only rare events (retransmissions, drops) use the perf buffer |
 | 10 | No notion of retransmission / loss | "accuracy 100 %" was claimed from a **loopback** test, where nothing is ever lost | per-socket wire bytes, retransmitted bytes/segments, RTT, cwnd from `struct tcp_sock`; `tcp_retransmit_skb` tracepoint; UDP drop detection; netem experiments against ground truth |
 | 11 | Loopback mixed with network traffic | double counting, inflated totals | loopback and host-local flows detected, hidden by default, explained in CONCEPTS.md |
-| 12 | 25 tests mostly against the mock | tested the simulation, not the tracker | unit tests for the aggregation logic + experiments on real kernels (5.15 and 6.8 tested, Pi 6.x is the target) |
+| 12 | 25 tests mostly against the mock | tested the simulation, not the tracker | unit tests for the aggregation logic + experiments on real kernels (WSL2 kernel 5.15 and Raspberry Pi kernel 6.18). |
 | 13 | FastAPI / extra pip packages | Raspberry Pi OS blocks system-wide pip (PEP 668), and a venv cannot see `python3-bpfcc` | standard library only |
