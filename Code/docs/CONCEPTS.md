@@ -1,7 +1,8 @@
-# Concepts you must be able to explain
+# Concepts
 
-This file answers the four points from the TA review, plus the professor's
-remark about real-time accuracy. Read it together with `ARCHITECTURE.md`.
+Background for the design: eBPF, kprobes and tracepoints, the kernel data path
+through `tcp_sendmsg`/`udp_sendmsg`, loopback, and why real-time numbers at
+different layers never agree exactly. The system design is in `ARCHITECTURE.md`.
 
 ---
 
@@ -18,7 +19,7 @@ that our Python program reads from user space.
 We use **BCC**: our C file `bwtracker/bpf/tracker.bpf.c` is compiled by
 clang **on the target machine at start-up**, against that machine's kernel
 headers. That is why the Pi needs `linux-headers-rpi-2712` and why WSL2 needed
-`scripts/setup_wsl.sh` (Microsoft ships no headers - the exact error you saw).
+`scripts/setup_wsl.sh` (Microsoft ships no kernel headers for WSL2, so BCC cannot compile without it).
 
 ---
 
@@ -63,7 +64,7 @@ Caveat we measure and display: a kretprobe has a limited number of
 simultaneous instances (`maxactive`, we set 512). If more threads are inside
 `tcp_sendmsg` at the same moment (blocked on a full buffer), the kernel skips
 the return probe and increments a **miss counter**. bwtrack shows it
-("kretprobe misses") so you can prove the counts are complete.
+("kretprobe misses") as evidence that the counts are complete.
 
 ### tracepoint
 A **tracepoint** is a hook the kernel developers placed on purpose, with a
@@ -117,10 +118,11 @@ process: at that layer the packet is not yet associated with a socket.
 
 ### `tcp_sendmsg(struct sock *sk, struct msghdr *msg, size_t size)`
 Called when an app writes to a TCP socket. It **copies the data into the
-socket's send buffer** and returns. It does **not** wait for the data to be
-transmitted, and the data may be transmitted (and re-transmitted) much later
-by the TCP engine (cwnd, receiver window, timers). So our "app upload" counter
-measures *bytes the application handed to TCP*.
+socket's send buffer**, immediately transmits as much as the congestion and
+receive windows allow, and returns the number of bytes accepted. It does
+**not** wait for the data to be delivered: the rest is transmitted (and
+retransmitted if lost) later by the TCP engine as ACKs arrive. So our "app
+upload" counter measures *bytes the application handed to TCP*.
 
 ### `tcp_cleanup_rbuf(struct sock *sk, int copied)`
 Called at the end of `tcp_recvmsg()` after `copied` bytes were copied to the
@@ -128,8 +130,8 @@ app (it decides whether a window-update ACK should be sent). It can be called
 **twice in one `recv()`** with a cumulative `copied` (when the app uses
 `MSG_WAITALL`/`SO_RCVLOWAT`). Counting `copied` naively double-counts. We use
 `tp->copied_seq` - the TCP sequence number up to which the app has consumed
-data - and count only how much it advanced. (`tcptop` from BCC has the
-double-counting bug; we fixed it.)
+data - and count only how much it advanced. The peer's FIN also advances
+`copied_seq` by one; that is not counted as data.
 
 ### `udp_sendmsg(struct sock *sk, struct msghdr *msg, size_t len)`
 UDP has no connection: with `sendto()` the destination is in `msg->msg_name`
@@ -175,9 +177,9 @@ Consequences for a bandwidth tracker:
    processes gives twice the real amount, and none of it used the network.
 2. **No loss, huge MTU, near-zero RTT.** The loopback MTU is 65536, nothing is
    dropped (unless we add netem), so TCP never retransmits. **Any accuracy test
-   over loopback will show 100 %.** That is exactly what the old project's
-   "100 % accuracy" benchmark did, and why the professor did not accept it.
-3. **The NIC counters don't move.** `/proc/net/dev` for `eth0` stays flat while
+   over loopback will show 100 %.** That was the weakness of our mid-semester
+   "100 % accuracy" benchmark.
+4. **The NIC counters don't move.** `/proc/net/dev` for `eth0` stays flat while
    loopback traffic flows.
 
 What bwtrack does: flows whose remote address is loopback **or one of the
@@ -185,14 +187,14 @@ host's own addresses** are marked `loopback`, **hidden by default** and
 excluded from totals (press `l` in the terminal UI, or tick "Loopback" in the
 web UI to see them). Loopback is still useful as a controlled lab:
 `run_experiments.py --peer local` runs everything over `lo` with netem loss -
-handy without a second computer, but the real measurements should go over a
+handy without a second computer, but all our reported measurements use a
 real link (Pi <-> laptop).
 
 ---
 
 ## 5. Why real-time numbers are NOT 100 % accurate (and must not be)
 
-The professor's point. A real-time tracker looks at the stack at one layer and
+A real-time tracker looks at the stack at one layer and
 at one instant; different layers disagree **for real reasons**:
 
 | effect | what you see in bwtrack |
@@ -212,10 +214,10 @@ number: socket layer (what each process did), TCP wire layer (what TCP really
 transmitted, incl. retransmissions), and NIC (everything incl. headers). The
 experiments quantify the difference against ground truth.
 
-**Expected results** (see `experiments/README.md`):
+**Measured on the Raspberry Pi 5** (`experiments/pi_results/2026-10-30_final/`):
 - TCP app-layer bytes are exact over a whole transfer (100.0 %): TCP is reliable
   and we count at the app boundary. Per-second they differ from the wire.
 - TCP wire bytes exceed app bytes by roughly the loss rate: `retx % ~ loss %`.
 - UDP sender-side counters stay at 100 % while delivered drops to 1 - loss.
-- TCP goodput collapses with loss roughly as the Mathis model predicts:
+- TCP goodput collapses with loss roughly with the Mathis model:
   `throughput <= MSS / RTT * 1.22 / sqrt(p)`.
