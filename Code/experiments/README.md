@@ -46,32 +46,17 @@ sudo python3 experiments/run_experiments.py --peer local --loss 0,1,5,10 --rcvbu
 | UDP eBPF-measured loss | 1 − eBPF rx bytes at receiver / eBPF tx bytes at sender (both ends traced) |
 | Mathis bound | MSS / RTT × 1.22 / √p, the classic TCP throughput model, for comparison |
 
-## Sample results (development VM, NOT the Pi)
+## Results
 
-`sample_results/` contains two runs from the development VMs (QEMU, emulated
-CPU, traffic over loopback with netem): Ubuntu 24.04 / kernel 6.8 / BCC 0.29 and
-Ubuntu 22.04 / kernel 5.15 / BCC 0.18. They show that the method works. **Replace
-them with your Pi runs for the report.** The absolute speeds and the "eBPF
-ns/run" values are meaningless there: the CPU is emulated, so every eBPF run
-costs microseconds instead of the ~100-300 ns expected on a Pi 5.
+All reported results come from the Raspberry Pi 5 testbed, in `pi_results/`:
 
-What they show (and what you should expect on the Pi):
-- **TCP app-layer counts are exact** over a full transfer (100.000 %), with and
-  without loss, for `send()` and `sendfile()`.
-- **Wire bytes grow with loss.** At 10 % loss TCP put about 12 % more bytes on the wire
-  than the app sent; `retx %` follows the configured loss rate.
-- **Per-second rates differ between layers** even with 0 % loss, and more
-  with loss. This is the real-time inaccuracy the professor mentioned.
-- **UDP sender-side counters always say 100 %.** Only the receiver (eBPF on
-  the receiving host, or sequence numbers) sees the loss, and when both ends are
-  traced, the eBPF-measured loss matches the sequence-number loss to 0.01 %.
-- **Receive-buffer drops** counted by eBPF equal the kernel's own
-  `Udp: RcvbufErrors` counter exactly.
+- `pi_results/2026-10-30_final/`: the final runs used in the report and slides
+  (proof suite, three loss runs, the +20 ms delay run, overhead check).
+- `pi_results/2026-10-26_pi5_wifi_loss/`: the first Pi run (one pass), kept for reference.
 
-On the Pi with a real link, expect in addition: NIC bytes > wire bytes
-(headers, ACKs), a visible wire lag for uploads (Wi-Fi especially), and
-retransmissions even at 0 % netem loss on Wi-Fi.
-
+Each experiment run writes the same five files: `report.md` / `report.html`
+(tables and charts), `results.json` / `results.csv` (one row per transfer) and
+`series.csv` (every 0.5 s sample).
 ---
 
 # Proof suite: correctness, performance, scalability, reliability
