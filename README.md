@@ -3,7 +3,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![Linux eBPF](https://img.shields.io/badge/kernel-eBPF%20%2F%20BCC-orange.svg)](https://ebpf.io/)
 [![Raspberry Pi 5](https://img.shields.io/badge/tested%20on-Raspberry%20Pi%205-c51a4a.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
-[![Kernels](https://img.shields.io/badge/kernels-5.15%20%7C%206.18.-lightgrey.svg)](#-testbed)
+[![Kernels](https://img.shields.io/badge/kernels-5.15%20%7C%206.18-lightgrey.svg)](#-testbed)
 [![Tests](https://img.shields.io/badge/unit%20tests-14%20passed-brightgreen.svg)](Code/tests/test_logic.py)
 [![No mock data](https://img.shields.io/badge/data-100%25%20live%20kernel-success.svg)](#-how-it-works)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
@@ -13,7 +13,7 @@
 
 **bwtrack** shows, **live and from inside the Linux kernel**, how much network bandwidth **every process** is using: per process, per remote IP and port, for **TCP and UDP**, upload and download. For TCP it also shows what really went **on the wire**: retransmissions, RTT and congestion window. That lets you **see packet loss as it happens** and explain why real-time numbers at different layers never agree exactly.
 
-It runs on a **Raspberry Pi 5** (the main testbed) on WSL2. It comes with a terminal dashboard, a web dashboard, SQLite history, a Prometheus endpoint and a reproducible **packet-loss experiment suite** (0-10 % loss) that checks every number against ground truth.
+It runs on a **Raspberry Pi 5** (the main testbed) and on WSL2. It comes with a terminal dashboard, a web dashboard, SQLite history, a Prometheus endpoint and a reproducible **packet-loss experiment suite** (0-10 % loss) that checks every number against ground truth.
 
 > 💻 **No Raspberry Pi needed for live tracking:** bwtrack also runs on WSL2 (see [Quickstart](#-quickstart)). Only the packet-loss experiments need the Pi, because they use `tc netem`, which the WSL2 kernel does not include.
 
@@ -399,7 +399,6 @@ At 0 % loss the wire equals the app exactly when Wi-Fi itself loses nothing (+0.
 ```text
 CS331_T001_PerProcess_eBPF_Final/
 ├── README.md                     # This file
-├── LICENSE                       # MIT License
 ├── Report.pdf                    # Final project report (IEEE-style template)
 ├── PPT.pdf                       # ⭐ Final presentation (instructor's 5-slide format + proof slides)
 ├── AI_Used/                      # 🤖 Raw AI conversations (no summaries)
