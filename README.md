@@ -6,7 +6,7 @@
 [![Kernels](https://img.shields.io/badge/kernels-5.15%20%7C%206.8%20%7C%206.18-lightgrey.svg)](#-testbed)
 [![Tests](https://img.shields.io/badge/unit%20tests-14%20passed-brightgreen.svg)](Code/tests/test_logic.py)
 [![No mock data](https://img.shields.io/badge/data-100%25%20live%20kernel-success.svg)](#-how-it-works)
-[![License: MIT]([https://img.shields.io/badge/License-MIT-green.svg](https://opensource.org/license/MIT))](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 <p align="center"><img src="Code/docs/img/bwtrack-demo.gif" alt="bwtrack on a Raspberry Pi 5: web dashboard, terminal UI, loss experiment, results and proof suite" width="900"></p>
 <p align="center"><sub>Real screenshots from the Raspberry Pi 5 runs (30–31 Oct 2026). Full-size images are in <a href="#%EF%B8%8F-screenshots">Screenshots</a>.</sub></p>
