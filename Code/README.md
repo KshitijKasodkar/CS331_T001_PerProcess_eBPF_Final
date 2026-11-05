@@ -47,8 +47,8 @@ standard library.
 
 Why the layers disagree in real time (buffering, retransmissions, headers, UDP
 loss being invisible to the sender, loopback double counting) is explained in
-[docs/CONCEPTS.md](docs/CONCEPTS.md). That document also answers the TA review
-points: loopback, kprobes, `tcp_sendmsg`/`udp_sendmsg`, and architecture.
+[docs/CONCEPTS.md](docs/CONCEPTS.md), which also covers kprobes, loopback and
+the `tcp_sendmsg`/`udp_sendmsg` data path.
 The architecture is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Accuracy and packet-loss experiments
