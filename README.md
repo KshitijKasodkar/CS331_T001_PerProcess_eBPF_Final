@@ -3,7 +3,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![Linux eBPF](https://img.shields.io/badge/kernel-eBPF%20%2F%20BCC-orange.svg)](https://ebpf.io/)
 [![Raspberry Pi 5](https://img.shields.io/badge/tested%20on-Raspberry%20Pi%205-c51a4a.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
-[![Kernels](https://img.shields.io/badge/kernels-5.15%20%7C%206.8%20%7C%206.18-lightgrey.svg)](#-testbed)
+[![Kernels](https://img.shields.io/badge/kernels-5.15%20%7C%206.18.-lightgrey.svg)](#-testbed)
 [![Tests](https://img.shields.io/badge/unit%20tests-14%20passed-brightgreen.svg)](Code/tests/test_logic.py)
 [![No mock data](https://img.shields.io/badge/data-100%25%20live%20kernel-success.svg)](#-how-it-works)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
@@ -13,9 +13,9 @@
 
 **bwtrack** shows, **live and from inside the Linux kernel**, how much network bandwidth **every process** is using: per process, per remote IP and port, for **TCP and UDP**, upload and download. For TCP it also shows what really went **on the wire**: retransmissions, RTT and congestion window. That lets you **see packet loss as it happens** and explain why real-time numbers at different layers never agree exactly.
 
-It runs on a **Raspberry Pi 5** (the main testbed), on Ubuntu, and on WSL2. It comes with a terminal dashboard, a web dashboard, SQLite history, a Prometheus endpoint and a reproducible **packet-loss experiment suite** (0–10 % loss) that checks every number against ground truth.
+It runs on a **Raspberry Pi 5** (the main testbed) on WSL2. It comes with a terminal dashboard, a web dashboard, SQLite history, a Prometheus endpoint and a reproducible **packet-loss experiment suite** (0-10 % loss) that checks every number against ground truth.
 
-> 💻 **No Raspberry Pi needed for live tracking:** bwtrack also runs on Ubuntu and on WSL2 (see [Quickstart](#-quickstart)). Only the packet-loss experiments need the Pi, because they use `tc netem`, which the WSL2 kernel does not include.
+> 💻 **No Raspberry Pi needed for live tracking:** bwtrack also runs on WSL2 (see [Quickstart](#-quickstart)). Only the packet-loss experiments need the Pi, because they use `tc netem`, which the WSL2 kernel does not include.
 
 > 🔁 **This is the final-evaluation version, rebuilt from scratch after the mid-semester review.** There is no mock mode: every number comes from real eBPF probes. See [What changed since the midsem](#-what-changed-since-the-midsem).
 
@@ -192,7 +192,7 @@ It runs on a **Raspberry Pi 5** (the main testbed), on Ubuntu, and on WSL2. It c
 ## 🚀 Quickstart
 
 ### 1. Requirements
-- Linux kernel ≥ 5.5 with kprobes (Raspberry Pi OS, Ubuntu 22.04/24.04, WSL2 all work)
+- Linux kernel ≥ 5.5 with kprobes (tested on Raspberry Pi OS and WSL2)
 - Root (`sudo`), `python3-bpfcc` and the headers of the **running** kernel
 
 ### 2. Raspberry Pi 5 (recommended testbed) 🍓
@@ -213,7 +213,7 @@ sudo ./scripts/setup_wsl.sh      # builds headers for the WSL2 kernel (~5–15 m
 ```
 > ⚠️ WSL2 only sees Linux processes inside WSL (not Windows apps) and its kernel has no `netem`, so loss experiments need the Pi.
 
-### 4. Ubuntu / Debian 🐧
+### 4. Other Linux (Ubuntu / Debian, not tested by us) 🐧
 ```bash
 sudo apt install -y python3-bpfcc bpfcc-tools linux-headers-$(uname -r) iproute2 iperf3
 cd Code && chmod +x bwtrack && sudo ./bwtrack doctor --compile
@@ -390,7 +390,7 @@ At 0 % loss the wire equals the app exactly when Wi-Fi itself loses nothing (+0.
 | Network | Wi-Fi (`wlan0`) via a OnePlus 11 5G phone hotspot |
 | Peer | Windows 11 laptop, Python 3.13, `trafficgen.py server` |
 | Final run | 30–31 Oct 2026, Pi `10.58.105.107` ↔ laptop `10.58.105.150` on the same hotspot |
-| Also tested | WSL2 kernel 5.15.167.4 (BCC 0.29.1), Ubuntu 24.04 kernel 6.8 and 22.04 kernel 5.15 (BCC 0.18) in QEMU (proof suite correctness + scalability pass on both) |
+| Also tested | WSL2 kernel 5.15.167.4 (BCC 0.29.1) |
 
 ---
 
