@@ -33,7 +33,7 @@ It runs on a **Raspberry Pi 5** (the main testbed), on Ubuntu, and on WSL2. It c
 | Roll Number | Name | Contact Email |
 |:---:|---|---|
 | **23110175** | Kshitij Kasodkar | `kshitij.kasodkar@iitgn.ac.in` |
-| **23110126** | Hanamanthagouda Policepatil | `hanamanthagouda.p@iitgn.ac.in` |
+| **23110126** | Hanamanthagouda Policepatil | `23110126@iitgn.ac.in` |
 | **22110140** | Manav Mangal Jain | `manav.jain@iitgn.ac.in` |
 | **23110338** | Thipparapu Rushitha | `thipparapu.rushitha@iitgn.ac.in` |
 | **24110278** | Ralebhat Priyanka Shriram | `priyanka.ralebhat@iitgn.ac.in` |
